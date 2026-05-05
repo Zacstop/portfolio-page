@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio - A안 미니멀</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Newsreader:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: #fafaf9;
+    color: #1a1a1a;
+    line-height: 1.6;
+    font-weight: 400;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 0 32px; }
+  nav {
+    padding: 32px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+  }
+  nav .logo { font-weight: 600; letter-spacing: -0.02em; }
+  nav ul { list-style: none; display: flex; gap: 28px; }
+  nav a { color: #525252; text-decoration: none; transition: color 0.2s; }
+  nav a:hover { color: #1a1a1a; }
+
+  /* Hero */
+  .hero { padding: 120px 0 80px; }
+  .hero .label {
+    font-size: 13px;
+    color: #737373;
+    margin-bottom: 24px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+  .hero h1 {
+    font-family: 'Newsreader', serif;
+    font-size: 56px;
+    font-weight: 400;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
+    margin-bottom: 32px;
+  }
+  .hero h1 em { font-style: italic; color: #525252; }
+  .hero p {
+    font-size: 19px;
+    color: #404040;
+    max-width: 560px;
+    line-height: 1.65;
+  }
+  .hero .meta {
+    margin-top: 40px;
+    display: flex;
+    gap: 32px;
+    font-size: 14px;
+    color: #737373;
+  }
+  .hero .meta span::before { content: "—"; margin-right: 8px; color: #a3a3a3; }
+
+  /* Section */
+  section { padding: 80px 0; border-top: 1px solid #e5e5e5; }
+  section .section-label {
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #737373;
+    margin-bottom: 40px;
+  }
+  section h2 {
+    font-family: 'Newsreader', serif;
+    font-size: 32px;
+    font-weight: 400;
+    margin-bottom: 32px;
+    letter-spacing: -0.02em;
+  }
+
+  /* About */
+  .about p {
+    font-size: 17px;
+    color: #404040;
+    margin-bottom: 20px;
+    line-height: 1.75;
+  }
+  .about .badge {
+    display: inline-block;
+    margin-top: 16px;
+    padding: 6px 14px;
+    border: 1px solid #1a1a1a;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* Skills */
+  .skills-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px 48px; }
+  .skill-group h3 {
+    font-size: 13px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #737373;
+    margin-bottom: 12px;
+    font-weight: 500;
+  }
+  .skill-group ul { list-style: none; }
+  .skill-group li {
+    padding: 8px 0;
+    border-bottom: 1px solid #e5e5e5;
+    font-size: 15px;
+    color: #262626;
+    display: flex;
+    justify-content: space-between;
+  }
+  .skill-group li:last-child { border-bottom: none; }
+  .skill-group li span { color: #a3a3a3; font-size: 13px; }
+
+  /* Projects */
+  .project {
+    padding: 32px 0;
+    border-bottom: 1px solid #e5e5e5;
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+  .project:last-child { border-bottom: none; }
+  .project .year { font-size: 13px; color: #a3a3a3; padding-top: 4px; }
+  .project h3 {
+    font-family: 'Newsreader', serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .project .company { font-size: 13px; color: #737373; margin-bottom: 12px; }
+  .project p { font-size: 15px; color: #404040; line-height: 1.7; margin-bottom: 12px; }
+  .project .tags { display: flex; gap: 12px; flex-wrap: wrap; font-size: 12px; color: #737373; }
+  .project .tags span::before { content: "·"; margin-right: 8px; }
+  .project .tags span:first-child::before { content: ""; margin: 0; }
+
+  /* Contact */
+  .contact a {
+    color: #1a1a1a;
+    text-decoration: none;
+    border-bottom: 1px solid #1a1a1a;
+    padding-bottom: 2px;
+    transition: opacity 0.2s;
+  }
+  .contact a:hover { opacity: 0.6; }
+  .contact-list { display: flex; flex-direction: column; gap: 16px; font-size: 17px; }
+  .contact-list .label { color: #737373; font-size: 13px; margin-right: 12px; text-transform: uppercase; letter-spacing: 0.05em; }
+
+  footer { padding: 40px 0; font-size: 13px; color: #a3a3a3; border-top: 1px solid #e5e5e5; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 38px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .project { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+  <div class="container">
+    <nav>
+      <div class="logo">Yongmin Kim</div>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+
+    <section class="hero" style="border: none; padding-top: 80px;">
+      <div class="label">Frontend · Fullstack Developer</div>
+      <h1>웹과 앱을 <em>처음부터 끝까지</em><br/>설계하는 개발자입니다.</h1>
+      <p>2년차 프론트엔드 기반 풀스택 개발자. React와 Next.js 중심의 프론트엔드부터 Node.js 백엔드, 데이터베이스 설계, 배포까지 1인 프로젝트와 팀 프로젝트를 모두 경험했습니다.</p>
+      <div class="meta">
+        <span>Seoul, Korea</span>
+        <span>병역특례 보충역</span>
+        <span>Available 2026</span>
+      </div>
+    </section>
+
+    <section id="about" class="about">
+      <div class="section-label">About</div>
+      <h2>소개</h2>
+      <p>제품의 첫 화면부터 데이터베이스 스키마까지 직접 설계하고 만들어왔습니다. 디자인 시안을 받아 구현하는 것을 넘어, 기획 단계에서 기술적 의사결정에 참여하고, 운영 중 발생하는 이슈를 백엔드까지 추적해 해결하는 것에 익숙합니다.</p>
+      <p>스타트업에서 빠른 사이클로 기능을 출시하고, 외주 개발에서 다양한 도메인을 경험했습니다. 혼자 끝까지 만들 수 있다는 것이 가장 큰 강점입니다.</p>
+      <span class="badge">병역특례 보충역 채용 가능</span>
+    </section>
+
+    <section id="skills">
+      <div class="section-label">Skills</div>
+      <h2>기술 스택</h2>
+      <div class="skills-grid">
+        <div class="skill-group">
+          <h3>Frontend</h3>
+          <ul>
+            <li>React <span>주력</span></li>
+            <li>Next.js <span>주력</span></li>
+            <li>TypeScript <span>주력</span></li>
+            <li>Expo / React Native <span>실무</span></li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Backend</h3>
+          <ul>
+            <li>Node.js <span>주력</span></li>
+            <li>Express <span>실무</span></li>
+            <li>PostgreSQL <span>실무</span></li>
+            <li>MongoDB <span>실무</span></li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Tools</h3>
+          <ul>
+            <li>Git / GitHub</li>
+            <li>Slack / Jira</li>
+            <li>Vercel / AWS</li>
+          </ul>
+        </div>
+        <div class="skill-group">
+          <h3>Strengths</h3>
+          <ul>
+            <li>1인 풀스택 개발</li>
+            <li>기획 · 설계 참여</li>
+            <li>반응형 / 크로스플랫폼</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-label">Selected Work</div>
+      <h2>주요 프로젝트</h2>
+
+      <div class="project">
+        <div class="year">2025</div>
+        <div>
+          <h3>Union — 대학교 학식 어플</h3>
+          <div class="company">개인 프로젝트 · 1인 개발</div>
+          <p>기획부터 디자인, 프론트엔드, 백엔드, DB, 서버 운영, 빌드/배포까지 혼자 완성한 모바일 어플리케이션. 풀스택 역량을 가장 잘 보여주는 프로젝트입니다.</p>
+          <div class="tags"><span>Expo</span><span>Node.js</span><span>PostgreSQL</span><span>1인 개발</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="year">2024</div>
+        <div>
+          <h3>Hackle A/B 테스트 · 대시보드</h3>
+          <div class="company">A/B 테스트 SaaS</div>
+          <p>실험 플랫폼의 대시보드와 홈페이지 개발에 참여. 데이터 시각화와 복잡한 상태 관리를 React로 구현했습니다.</p>
+          <div class="tags"><span>React</span><span>TypeScript</span><span>Dashboard</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="year">2024</div>
+        <div>
+          <h3>도미네이트 — 홈페이지 · 관리자 · 드랍페이지</h3>
+          <div class="company">주식회사 도미네이트</div>
+          <p>회사의 메인 홈페이지부터 관리자 페이지, 캠페인 드랍페이지까지 프론트 전반을 담당했습니다.</p>
+          <div class="tags"><span>Next.js</span><span>TypeScript</span><span>Admin</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="year">2024</div>
+        <div>
+          <h3>KB생명보험 영업관리자 시스템</h3>
+          <div class="company">외주 · 프론트엔드 React</div>
+          <p>대형 금융사 내부 시스템의 반응형 웹 개발에 FE 인력으로 참여했습니다.</p>
+          <div class="tags"><span>React</span><span>반응형</span><span>Enterprise</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="year">2023</div>
+        <div>
+          <h3>SULEGYM (설레짐) — 외주 어플</h3>
+          <div class="company">프론트엔드 · 백엔드</div>
+          <p>외주로 진행한 모바일 어플리케이션. 프론트와 백엔드 양쪽을 담당했습니다.</p>
+          <div class="tags"><span>React Native</span><span>Node.js</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="year">2023</div>
+        <div>
+          <h3>한미의담 · 엔벨롭스</h3>
+          <div class="company">홈페이지 · 관리자 · 백엔드</div>
+          <p>한미의담 홈페이지/관리자, 엔벨롭스 SAMS·홈 페이지 백엔드 개발을 담당했습니다.</p>
+          <div class="tags"><span>Next.js</span><span>Node.js</span><span>Admin</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="contact">
+      <div class="section-label">Contact</div>
+      <h2>함께 일하고 싶다면</h2>
+      <p style="font-size: 17px; color: #404040; margin-bottom: 32px;">병역특례 보충역으로 합류 가능한 회사를 찾고 있습니다.<br/>편하게 연락 주세요.</p>
+      <div class="contact-list">
+        <div><span class="label">Email</span><a href="mailto:conceptelling@gmail.com">conceptelling@gmail.com</a></div>
+        <div><span class="label">GitHub</span><a href="#">@github-main</a></div>
+        <div><span class="label">GitHub 2</span><a href="#">@github-sub</a></div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Yongmin Kim. Built with Next.js.
+    </footer>
+  </div>
+</body>
+</html>

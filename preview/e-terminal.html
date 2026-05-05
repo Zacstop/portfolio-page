@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio - E안 (개발자 터미널)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  :root {
+    --bg: #0d1117;
+    --bg-2: #161b22;
+    --surface: #1c2128;
+    --border: #30363d;
+    --border-bright: #484f58;
+    --text: #e6edf3;
+    --text-2: #8b949e;
+    --text-3: #6e7681;
+    --green: #3fb950;
+    --blue: #58a6ff;
+    --purple: #bc8cff;
+    --orange: #ff7b72;
+    --yellow: #d29922;
+  }
+  body {
+    font-family: 'JetBrains Mono', 'SF Mono', Consolas, monospace;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.65;
+    font-size: 14px;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--blue); color: #0d1117; }
+
+  /* Window chrome */
+  .window {
+    max-width: 920px;
+    margin: 32px auto;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.5);
+  }
+  .titlebar {
+    display: flex;
+    align-items: center;
+    padding: 12px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    gap: 8px;
+  }
+  .titlebar .dots { display: flex; gap: 6px; }
+  .titlebar .dots span {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+  .titlebar .dots .r { background: #ff5f57; }
+  .titlebar .dots .y { background: #febc2e; }
+  .titlebar .dots .g { background: #28c840; }
+  .titlebar .path {
+    flex: 1;
+    text-align: center;
+    color: var(--text-2);
+    font-size: 12px;
+  }
+  .titlebar .path .dim { color: var(--text-3); }
+
+  .terminal { padding: 28px 32px 40px; }
+
+  /* Prompt line */
+  .prompt {
+    margin: 16px 0 6px;
+    color: var(--text-2);
+    font-size: 13px;
+  }
+  .prompt .user { color: var(--green); font-weight: 600; }
+  .prompt .at { color: var(--text-3); }
+  .prompt .host { color: var(--blue); font-weight: 600; }
+  .prompt .colon { color: var(--text-3); }
+  .prompt .dir { color: var(--purple); font-weight: 600; }
+  .prompt .arrow { color: var(--green); }
+  .prompt .cmd { color: var(--text); font-weight: 500; margin-left: 4px; }
+  .prompt .flag { color: var(--orange); }
+
+  .output {
+    padding: 4px 0 0 0;
+    color: var(--text);
+    font-size: 13.5px;
+    line-height: 1.75;
+  }
+  .output .comment { color: var(--text-3); }
+  .output .key { color: var(--blue); }
+  .output .str { color: var(--green); }
+  .output .num { color: var(--orange); }
+  .output .kw { color: var(--purple); }
+  .output .fn { color: var(--yellow); }
+
+  /* Hero */
+  .hero-banner {
+    margin: 8px 0 28px;
+    padding: 20px 24px;
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--green);
+    border-radius: 6px;
+    background: linear-gradient(90deg, rgba(63,185,80,0.06), transparent 60%);
+  }
+  .hero-banner .ascii {
+    color: var(--green);
+    font-size: 11px;
+    line-height: 1.2;
+    margin-bottom: 14px;
+    white-space: pre;
+    overflow-x: auto;
+  }
+  .hero-banner h1 {
+    font-family: 'Inter', sans-serif;
+    font-size: 30px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    line-height: 1.15;
+    margin-bottom: 10px;
+    color: var(--text);
+  }
+  .hero-banner h1 .accent { color: var(--green); }
+  .hero-banner p {
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  /* Status grid */
+  .status {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 12px 0 24px;
+  }
+  .status .stat {
+    padding: 12px 14px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+  }
+  .status .stat .l { color: var(--text-3); font-size: 10px; text-transform: uppercase; letter-spacing: 0.06em; }
+  .status .stat .v { color: var(--text); font-weight: 600; font-size: 14px; margin-top: 4px; }
+  .status .stat .v.green { color: var(--green); }
+  .status .stat .v.blue { color: var(--blue); }
+  .status .stat .v.purple { color: var(--purple); }
+
+  /* Cards & Lists */
+  .skill-block {
+    padding: 14px 18px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 8px;
+  }
+  .skill-block .head {
+    color: var(--blue);
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 13px;
+  }
+  .skill-block .head .lang { color: var(--text-3); margin-left: 8px; font-weight: 400; font-size: 11px; }
+  .skill-block .items { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-block .item {
+    font-size: 11px;
+    padding: 3px 8px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+  }
+  .skill-block .item.core { color: var(--green); border-color: rgba(63,185,80,0.4); background: rgba(63,185,80,0.08); }
+
+  /* Project */
+  .project {
+    padding: 18px 0;
+    border-top: 1px dashed var(--border);
+    transition: padding-left 0.2s;
+  }
+  .project:hover { padding-left: 8px; border-left: 2px solid var(--green); margin-left: -10px; padding-left: 18px; }
+  .project:first-of-type { border-top: none; }
+  .project .row1 {
+    display: flex;
+    gap: 12px;
+    align-items: baseline;
+    margin-bottom: 6px;
+    font-size: 13px;
+  }
+  .project .row1 .yr { color: var(--orange); }
+  .project .row1 .id { color: var(--purple); font-weight: 600; }
+  .project .row1 .badge {
+    margin-left: auto;
+    font-size: 10px;
+    padding: 2px 7px;
+    border: 1px solid var(--green);
+    color: var(--green);
+    border-radius: 3px;
+  }
+  .project .title {
+    font-family: 'Inter', sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 4px;
+    letter-spacing: -0.01em;
+  }
+  .project .role { color: var(--text-3); font-size: 12px; margin-bottom: 10px; }
+  .project p {
+    color: var(--text-2);
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+  }
+  .project .tech { display: flex; gap: 6px; flex-wrap: wrap; }
+  .project .tech span {
+    font-size: 11px;
+    padding: 2px 7px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    color: var(--blue);
+  }
+
+  /* Contact */
+  .contact-line {
+    padding: 12px 0;
+    border-bottom: 1px dashed var(--border);
+    display: grid;
+    grid-template-columns: 100px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    font-size: 13px;
+  }
+  .contact-line:last-child { border-bottom: none; }
+  .contact-line .k { color: var(--purple); }
+  .contact-line a { color: var(--blue); text-decoration: none; }
+  .contact-line a:hover { text-decoration: underline; }
+  .contact-line .arrow { color: var(--green); }
+
+  .blink {
+    display: inline-block;
+    width: 8px; height: 14px;
+    background: var(--text);
+    margin-left: 4px;
+    vertical-align: -2px;
+    animation: blink 1s steps(2) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  @media (max-width: 720px) {
+    .terminal { padding: 20px 16px 32px; }
+    .hero-banner { padding: 16px; }
+    .hero-banner h1 { font-size: 22px; }
+    .hero-banner .ascii { font-size: 8px; }
+    .status { grid-template-columns: repeat(2, 1fr); }
+  }
+</style>
+</head>
+<body>
+  <div class="window">
+    <div class="titlebar">
+      <div class="dots"><span class="r"></span><span class="y"></span><span class="g"></span></div>
+      <div class="path"><span class="dim">~/</span>portfolio<span class="dim">/yongmin-kim</span> — zsh</div>
+    </div>
+
+    <div class="terminal">
+
+      <!-- Welcome / Hero -->
+      <div class="prompt"><span class="user">yongmin</span><span class="at">@</span><span class="host">macbook</span> <span class="colon">in</span> <span class="dir">~/portfolio</span><br/><span class="arrow">❯</span> <span class="cmd">cat</span> <span class="flag">--intro</span></div>
+      <div class="hero-banner">
+        <pre class="ascii">  __  __    _    ___ _   _   ____  _____ _   _
+ |  \/  |  / \  |_ _| \ | | |  _ \| ____| \ | |
+ | |\/| | / _ \  | ||  \| | | | | |  _| |  \| |
+ | |  | |/ ___ \ | || |\  | | |_| | |___| |\  |
+ |_|  |_/_/   \_\___|_| \_| |____/|_____|_| \_|</pre>
+        <h1>웹과 앱을 처음부터 끝까지<br/><span class="accent">설계하고 만드는</span> 개발자</h1>
+        <p>2년차 프론트엔드 기반 풀스택 개발자. React · Next · Node.js · PostgreSQL · Expo. 1인 개발부터 팀 협업까지, 기획부터 배포까지.</p>
+      </div>
+
+      <div class="prompt"><span class="arrow">❯</span> <span class="cmd">whoami</span> <span class="flag">--status</span></div>
+      <div class="status">
+        <div class="stat"><div class="l">role</div><div class="v">Fullstack</div></div>
+        <div class="stat"><div class="l">exp</div><div class="v blue">2+ yrs</div></div>
+        <div class="stat"><div class="l">location</div><div class="v">Seoul</div></div>
+        <div class="stat"><div class="l">status</div><div class="v green">● open</div></div>
+      </div>
+
+      <!-- About -->
+      <div class="prompt"><span class="arrow">❯</span> <span class="cmd">cat</span> about.md</div>
+      <div class="output" style="padding: 12px 0 24px;">
+        <span class="comment"># About</span><br/><br/>
+        제품의 첫 화면부터 데이터베이스 스키마까지 직접 설계하고 만들어왔습니다. 디자인 시안을 받아 구현하는 것을 넘어, 기획 단계에서 기술적 의사결정에 참여하고, 운영 중 발생하는 이슈를 백엔드까지 추적해 해결하는 것에 익숙합니다.<br/><br/>
+        스타트업에서 빠른 사이클로 기능을 출시하고, 외주 개발에서 다양한 도메인을 경험했습니다. <span class="kw">혼자 끝까지 만들 수 있다</span>는 것이 가장 큰 강점입니다.<br/><br/>
+        <span class="comment"># 병역</span><br/>
+        <span class="key">military</span>: <span class="str">"보충역 — 산업기능요원/전문연구요원 가능"</span>
+      </div>
+
+      <!-- Skills -->
+      <div class="prompt"><span class="arrow">❯</span> <span class="cmd">cat</span> stack.json | <span class="cmd">jq</span></div>
+      <div style="padding-top: 6px;">
+        <div class="skill-block">
+          <div class="head">"frontend" <span class="lang">// 주력</span></div>
+          <div class="items">
+            <span class="item core">React</span><span class="item core">Next.js</span><span class="item core">TypeScript</span><span class="item">Tailwind</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="head">"backend" <span class="lang">// 실무</span></div>
+          <div class="items">
+            <span class="item core">Node.js</span><span class="item">Express</span><span class="item">PostgreSQL</span><span class="item">MongoDB</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="head">"mobile" <span class="lang">// 실무</span></div>
+          <div class="items">
+            <span class="item">Expo</span><span class="item">React Native</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <div class="head">"ops_and_tools"</div>
+          <div class="items">
+            <span class="item">Git</span><span class="item">GitHub</span><span class="item">Slack</span><span class="item">Jira</span><span class="item">Vercel</span><span class="item">AWS</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Projects -->
+      <div class="prompt" style="margin-top: 28px;"><span class="arrow">❯</span> <span class="cmd">ls</span> <span class="flag">-la</span> projects/</div>
+      <div class="output" style="padding-bottom: 12px;">
+        <span class="comment">total 6 — sorted by year, featured first</span>
+      </div>
+
+      <div class="project">
+        <div class="row1"><span class="yr">2025</span><span class="id">union/</span><span class="badge">★ FEATURED</span></div>
+        <div class="title">Union — 대학교 학식 어플</div>
+        <div class="role">// Plan · Design · FE · BE · DB · Deploy / 1인 개발</div>
+        <p>대학교 학식 정보를 한 곳에서 확인하는 모바일 어플. 기획부터 디자인, 프론트엔드, 백엔드, DB, 서버 운영, 빌드/배포까지 혼자서 완성. 풀스택 역량을 가장 잘 보여주는 프로젝트.</p>
+        <div class="tech"><span>Expo</span><span>RN</span><span>Node.js</span><span>PostgreSQL</span><span>AWS</span></div>
+      </div>
+
+      <div class="project">
+        <div class="row1"><span class="yr">2024</span><span class="id">hackle/</span></div>
+        <div class="title">Hackle A/B 테스트 · 대시보드</div>
+        <div class="role">// Frontend Engineer</div>
+        <p>실험 플랫폼의 대시보드와 홈페이지 개발. 데이터 시각화와 복잡한 상태 관리를 React로 구현.</p>
+        <div class="tech"><span>React</span><span>TypeScript</span><span>Dashboard</span></div>
+      </div>
+
+      <div class="project">
+        <div class="row1"><span class="yr">2024</span><span class="id">dominate/</span></div>
+        <div class="title">도미네이트 — 홈페이지 · 관리자 · 드랍페이지</div>
+        <div class="role">// Frontend Engineer</div>
+        <p>회사의 메인 홈페이지부터 관리자 페이지, 캠페인 드랍페이지까지 프론트 전반을 담당.</p>
+        <div class="tech"><span>Next.js</span><span>TypeScript</span><span>Admin</span></div>
+      </div>
+
+      <div class="project">
+        <div class="row1"><span class="yr">2024</span><span class="id">kb-life/</span><span class="badge" style="border-color: var(--purple); color: var(--purple);">ENTERPRISE</span></div>
+        <div class="title">KB생명보험 영업관리자 시스템</div>
+        <div class="role">// 외주 · FE React</div>
+        <p>대형 금융사 내부 시스템의 반응형 웹 개발에 FE 인력으로 참여.</p>
+        <div class="tech"><span>React</span><span>반응형</span></div>
+      </div>
+
+      <div class="project">
+        <div class="row1"><span class="yr">2023</span><span class="id">sulegym/</span></div>
+        <div class="title">SULEGYM (설레짐) — 외주 어플</div>
+        <div class="role">// Frontend · Backend</div>
+        <p>외주로 진행한 모바일 어플리케이션. 프론트와 백엔드 양쪽을 담당.</p>
+        <div class="tech"><span>RN</span><span>Node.js</span></div>
+      </div>
+
+      <div class="project">
+        <div class="row1"><span class="yr">2023</span><span class="id">hanmi-envelops/</span></div>
+        <div class="title">한미의담 · 엔벨롭스</div>
+        <div class="role">// 홈페이지 · 관리자 · 백엔드</div>
+        <p>한미의담 홈페이지/관리자, 엔벨롭스 SAMS · 홈 페이지 백엔드 개발.</p>
+        <div class="tech"><span>Next.js</span><span>Node.js</span><span>Admin</span></div>
+      </div>
+
+      <!-- Contact -->
+      <div class="prompt" style="margin-top: 28px;"><span class="arrow">❯</span> <span class="cmd">cat</span> contact.yml</div>
+      <div style="padding-top: 8px;">
+        <div class="contact-line"><span class="k">email:</span><a href="mailto:conceptelling@gmail.com">conceptelling@gmail.com</a><span class="arrow">→</span></div>
+        <div class="contact-line"><span class="k">github:</span><a href="#">@github-main</a><span class="arrow">→</span></div>
+        <div class="contact-line"><span class="k">github_2:</span><a href="#">@github-sub</a><span class="arrow">→</span></div>
+        <div class="contact-line"><span class="k">resume:</span><a href="#">resume.pdf</a><span class="arrow">↓</span></div>
+      </div>
+
+      <div class="prompt" style="margin-top: 28px;"><span class="arrow">❯</span><span class="blink"></span></div>
+    </div>
+  </div>
+</body>
+</html>

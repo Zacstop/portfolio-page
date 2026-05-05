@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio - D안 (에디토리얼)</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    font-family: 'Inter', sans-serif;
+    background: #faf6f0;
+    color: #1c1917;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: #1c1917; color: #faf6f0; }
+
+  /* Top bar */
+  .topbar {
+    border-bottom: 1.5px solid #1c1917;
+    padding: 14px 32px;
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+  .topbar .left, .topbar .right { display: flex; gap: 24px; }
+  .topbar .right span { color: #57534e; }
+
+  /* Masthead */
+  .masthead {
+    text-align: center;
+    padding: 56px 32px 32px;
+    border-bottom: 1.5px solid #1c1917;
+  }
+  .masthead .name {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(64px, 12vw, 160px);
+    font-weight: 500;
+    letter-spacing: -0.05em;
+    line-height: 0.95;
+    font-variation-settings: "SOFT" 50, "WONK" 1;
+  }
+  .masthead .tagline {
+    margin-top: 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: #57534e;
+  }
+
+  .container { max-width: 880px; margin: 0 auto; padding: 0 32px; }
+
+  /* Hero */
+  .hero {
+    padding: 80px 0 64px;
+    border-bottom: 1px solid #d6d3d1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+    align-items: end;
+  }
+  .hero .lead {
+    font-family: 'Fraunces', serif;
+    font-size: 38px;
+    font-weight: 400;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    font-variation-settings: "SOFT" 50;
+  }
+  .hero .lead em {
+    font-style: italic;
+    color: #44403c;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+  .hero .body {
+    font-size: 16px;
+    color: #44403c;
+    line-height: 1.7;
+  }
+  .hero .body p + p { margin-top: 14px; }
+
+  /* Section */
+  section {
+    padding: 72px 0;
+    border-bottom: 1px solid #d6d3d1;
+  }
+  .sec-head {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    margin-bottom: 48px;
+    align-items: baseline;
+  }
+  .sec-head .num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #78716c;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+  .sec-head h2 {
+    font-family: 'Fraunces', serif;
+    font-size: 52px;
+    font-weight: 400;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    font-variation-settings: "SOFT" 30;
+  }
+
+  /* About */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+  }
+  .about-grid .label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #78716c;
+    padding-top: 6px;
+  }
+  .about-grid .body {
+    font-size: 17px;
+    line-height: 1.75;
+    color: #292524;
+  }
+  .about-grid .body p + p { margin-top: 14px; }
+  .about-grid .body strong { font-weight: 600; }
+
+  .quick-info {
+    margin-top: 32px;
+    border-top: 1px dashed #a8a29e;
+    padding-top: 18px;
+  }
+  .quick-info .row {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    padding: 8px 0;
+    font-size: 14px;
+    border-bottom: 1px dotted #d6d3d1;
+  }
+  .quick-info .row:last-child { border-bottom: none; }
+  .quick-info .key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #78716c;
+  }
+
+  /* Skills */
+  .skills {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 48px;
+  }
+  .skill h3 {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #78716c;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #1c1917;
+  }
+  .skill ul { list-style: none; }
+  .skill li {
+    padding: 8px 0;
+    font-size: 15px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px dotted #d6d3d1;
+  }
+  .skill li:last-child { border-bottom: none; }
+  .skill li .lvl {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #a8a29e;
+  }
+  .skill li .lvl.p { color: #1c1917; font-weight: 600; }
+
+  /* Projects */
+  .project {
+    display: grid;
+    grid-template-columns: 200px 1fr;
+    gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid #d6d3d1;
+  }
+  .project:last-child { border-bottom: none; }
+  .project .meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: #78716c;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .project .meta div + div { margin-top: 6px; }
+  .project .title {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
+    margin-bottom: 8px;
+    font-variation-settings: "SOFT" 30;
+  }
+  .project .role {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #78716c;
+    margin-bottom: 14px;
+  }
+  .project p {
+    font-size: 15px;
+    line-height: 1.7;
+    color: #292524;
+    margin-bottom: 16px;
+  }
+  .project .stack {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .project .stack span {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    padding: 3px 8px;
+    border: 1px solid #1c1917;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+  }
+
+  /* Contact */
+  .contact .lead {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+    margin-bottom: 32px;
+  }
+  .contact-list { border-top: 1px solid #1c1917; }
+  .contact-list .row {
+    display: grid;
+    grid-template-columns: 200px 1fr 40px;
+    align-items: center;
+    padding: 18px 0;
+    border-bottom: 1px solid #d6d3d1;
+    transition: padding 0.2s;
+  }
+  .contact-list .row:hover { padding-left: 8px; padding-right: 0; }
+  .contact-list .key {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: #78716c;
+  }
+  .contact-list a {
+    color: #1c1917;
+    text-decoration: none;
+    font-size: 18px;
+    font-family: 'Fraunces', serif;
+    font-weight: 500;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .contact-list .row:hover a { border-bottom-color: #1c1917; }
+  .contact-list .arrow {
+    font-family: 'JetBrains Mono', monospace;
+    color: #78716c;
+    text-align: right;
+    transition: transform 0.2s;
+  }
+  .contact-list .row:hover .arrow { transform: translateX(4px); color: #1c1917; }
+
+  footer {
+    border-top: 1.5px solid #1c1917;
+    padding: 18px 32px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: #57534e;
+  }
+
+  @media (max-width: 720px) {
+    .hero, .about-grid, .sec-head, .project, .contact-list .row { grid-template-columns: 1fr; gap: 12px; }
+    .skills { grid-template-columns: 1fr; }
+    .sec-head h2 { font-size: 36px; }
+    .hero .lead { font-size: 26px; }
+    .contact-list .row { grid-template-columns: 1fr 30px; }
+  }
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="left">
+      <span><strong>YONGMIN — KR</strong></span>
+      <span>VOL. I</span>
+    </div>
+    <div class="right">
+      <span>2026</span>
+      <span>● OPEN TO WORK</span>
+    </div>
+  </div>
+
+  <div class="masthead">
+    <div class="name">Yongmin<br/>Kim.</div>
+    <div class="tagline">— Frontend · Fullstack Developer · Seoul —</div>
+  </div>
+
+  <div class="container">
+
+    <section class="hero" style="border-bottom: 1px solid #d6d3d1;">
+      <div class="lead">웹과 앱을 <em>처음부터 끝까지</em> 설계하는 개발자입니다.</div>
+      <div class="body">
+        <p>2년차 프론트엔드 기반 풀스택 개발자. React와 Next.js 중심의 프론트엔드부터 Node.js 백엔드, 데이터베이스 설계, 배포까지 1인 프로젝트와 팀 프로젝트를 모두 경험했습니다.</p>
+        <p><strong>병역특례 보충역</strong>으로 합류 가능한 회사를 찾고 있습니다.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <div class="num">— 01 / About</div>
+        <h2>소개</h2>
+      </div>
+      <div class="about-grid">
+        <div class="label">PROFILE</div>
+        <div class="body">
+          <p>제품의 첫 화면부터 데이터베이스 스키마까지 직접 설계하고 만들어왔습니다. 디자인 시안을 받아 구현하는 것을 넘어, 기획 단계에서 기술적 의사결정에 참여하고, 운영 중 발생하는 이슈를 백엔드까지 추적해 해결하는 것에 익숙합니다.</p>
+          <p>스타트업에서 빠른 사이클로 기능을 출시하고, 외주 개발에서 다양한 도메인을 경험했습니다. <strong>혼자 끝까지 만들 수 있다</strong>는 것이 가장 큰 강점입니다.</p>
+        </div>
+      </div>
+      <div class="quick-info">
+        <div class="row"><span class="key">Role</span><span>Frontend · Fullstack Developer</span></div>
+        <div class="row"><span class="key">Experience</span><span>2+ years</span></div>
+        <div class="row"><span class="key">Location</span><span>Seoul, Korea</span></div>
+        <div class="row"><span class="key">병역</span><span>보충역 (산업기능요원/전문연구요원 가능)</span></div>
+        <div class="row"><span class="key">Status</span><span>● Available 2026</span></div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <div class="num">— 02 / Stack</div>
+        <h2>기술</h2>
+      </div>
+      <div class="skills">
+        <div class="skill">
+          <h3>Frontend</h3>
+          <ul>
+            <li>React <span class="lvl p">CORE</span></li>
+            <li>Next.js <span class="lvl p">CORE</span></li>
+            <li>TypeScript <span class="lvl p">CORE</span></li>
+            <li>Tailwind CSS <span class="lvl">PRO</span></li>
+          </ul>
+        </div>
+        <div class="skill">
+          <h3>Backend</h3>
+          <ul>
+            <li>Node.js <span class="lvl p">CORE</span></li>
+            <li>Express <span class="lvl">PRO</span></li>
+            <li>PostgreSQL <span class="lvl">PRO</span></li>
+            <li>MongoDB <span class="lvl">PRO</span></li>
+          </ul>
+        </div>
+        <div class="skill">
+          <h3>Mobile</h3>
+          <ul>
+            <li>Expo <span class="lvl">PRO</span></li>
+            <li>React Native <span class="lvl">PRO</span></li>
+          </ul>
+        </div>
+        <div class="skill">
+          <h3>Tools</h3>
+          <ul>
+            <li>Git / GitHub</li>
+            <li>Slack / Jira</li>
+            <li>Vercel / AWS</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-head">
+        <div class="num">— 03 / Selected Work</div>
+        <h2>주요 프로젝트</h2>
+      </div>
+
+      <div class="project">
+        <div class="meta">
+          <div>2025</div>
+          <div>SOLO PROJECT</div>
+          <div>★ FEATURED</div>
+        </div>
+        <div>
+          <div class="title">Union — 대학교 학식 어플</div>
+          <div class="role">Plan · Design · FE · BE · DB · Deploy / 1인 개발</div>
+          <p>대학교 학식 정보를 한 곳에서 확인하는 모바일 어플. 기획부터 디자인, 프론트엔드, 백엔드, 데이터베이스, 서버 운영, 빌드/배포까지 혼자서 완성. 풀스택 역량을 가장 잘 보여주는 프로젝트입니다.</p>
+          <div class="stack"><span>Expo</span><span>RN</span><span>Node</span><span>PostgreSQL</span><span>AWS</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="meta">
+          <div>2024</div>
+          <div>HACKLE</div>
+        </div>
+        <div>
+          <div class="title">Hackle A/B 테스트 · 대시보드</div>
+          <div class="role">Frontend Engineer</div>
+          <p>실험 플랫폼의 대시보드와 홈페이지 개발. 데이터 시각화와 복잡한 상태 관리를 React로 구현했습니다.</p>
+          <div class="stack"><span>React</span><span>TypeScript</span><span>Dashboard</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="meta">
+          <div>2024</div>
+          <div>DOMINATE</div>
+        </div>
+        <div>
+          <div class="title">도미네이트 — 홈페이지 · 관리자 · 드랍페이지</div>
+          <div class="role">Frontend Engineer</div>
+          <p>회사의 메인 홈페이지부터 관리자 페이지, 캠페인 드랍페이지까지 프론트 전반을 담당했습니다.</p>
+          <div class="stack"><span>Next.js</span><span>TypeScript</span><span>Admin</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="meta">
+          <div>2024</div>
+          <div>KB LIFE</div>
+          <div>ENTERPRISE</div>
+        </div>
+        <div>
+          <div class="title">KB생명보험 영업관리자 시스템</div>
+          <div class="role">외주 · FE React 개발자</div>
+          <p>대형 금융사 내부 시스템의 반응형 웹 개발에 FE 인력으로 참여했습니다.</p>
+          <div class="stack"><span>React</span><span>반응형</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="meta">
+          <div>2023</div>
+          <div>SULEGYM</div>
+        </div>
+        <div>
+          <div class="title">SULEGYM (설레짐) — 외주 어플</div>
+          <div class="role">Frontend · Backend</div>
+          <p>외주로 진행한 모바일 어플리케이션. 프론트와 백엔드 양쪽을 담당했습니다.</p>
+          <div class="stack"><span>RN</span><span>Node</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div class="meta">
+          <div>2023</div>
+          <div>HANMI · ENVELOPS</div>
+        </div>
+        <div>
+          <div class="title">한미의담 · 엔벨롭스</div>
+          <div class="role">Frontend · Backend</div>
+          <p>한미의담 홈페이지/관리자, 엔벨롭스 SAMS · 홈 페이지 백엔드 개발을 담당했습니다.</p>
+          <div class="stack"><span>Next.js</span><span>Node</span><span>Admin</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact">
+      <div class="sec-head">
+        <div class="num">— 04 / Contact</div>
+        <h2>연락처</h2>
+      </div>
+      <div class="lead">함께 만들어볼까요?</div>
+      <div class="contact-list">
+        <div class="row">
+          <span class="key">Email</span>
+          <span><a href="mailto:conceptelling@gmail.com">conceptelling@gmail.com</a></span>
+          <span class="arrow">→</span>
+        </div>
+        <div class="row">
+          <span class="key">GitHub</span>
+          <span><a href="#">@github-main</a></span>
+          <span class="arrow">→</span>
+        </div>
+        <div class="row">
+          <span class="key">GitHub 2</span>
+          <span><a href="#">@github-sub</a></span>
+          <span class="arrow">→</span>
+        </div>
+        <div class="row">
+          <span class="key">Resume</span>
+          <span><a href="#">Download PDF</a></span>
+          <span class="arrow">↓</span>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <footer>
+    © 2026 Yongmin Kim · Built with Next.js + Vercel · Vol. I
+  </footer>
+</body>
+</html>

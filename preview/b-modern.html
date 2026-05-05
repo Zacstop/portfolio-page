@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Portfolio - B안 모던</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  :root {
+    --bg: #0a0a0b;
+    --bg-2: #111113;
+    --surface: #16161a;
+    --border: #26262b;
+    --border-bright: #3a3a42;
+    --text: #ededf0;
+    --text-2: #a1a1aa;
+    --text-3: #71717a;
+    --accent: #a3e635;
+    --accent-2: #7c3aed;
+    --gradient: linear-gradient(135deg, #a3e635 0%, #22d3ee 50%, #7c3aed 100%);
+  }
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: -200px; left: 50%;
+    transform: translateX(-50%);
+    width: 800px; height: 600px;
+    background: radial-gradient(circle, rgba(124,58,237,0.18) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .container { max-width: 1080px; margin: 0 auto; padding: 0 32px; position: relative; z-index: 1; }
+
+  /* Nav */
+  nav {
+    padding: 24px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    background: rgba(10,10,11,0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    z-index: 100;
+    margin: 0 -32px;
+    padding: 20px 32px;
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; width: 100%; }
+  nav .logo {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  nav .logo::before {
+    content: "";
+    width: 8px; height: 8px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 12px var(--accent);
+  }
+  nav ul { list-style: none; display: flex; gap: 28px; font-size: 14px; }
+  nav a {
+    color: var(--text-2);
+    text-decoration: none;
+    transition: color 0.2s;
+    font-weight: 500;
+  }
+  nav a:hover { color: var(--text); }
+
+  /* Hero */
+  .hero { padding: 100px 0 120px; }
+  .hero .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 14px;
+    border: 1px solid var(--border-bright);
+    border-radius: 999px;
+    font-size: 13px;
+    color: var(--text-2);
+    margin-bottom: 28px;
+    background: var(--surface);
+  }
+  .hero .pill .dot {
+    width: 6px; height: 6px;
+    background: var(--accent);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.4; } }
+  .hero h1 {
+    font-size: 72px;
+    font-weight: 700;
+    letter-spacing: -0.04em;
+    line-height: 1.05;
+    margin-bottom: 24px;
+  }
+  .hero h1 .gradient {
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .hero p {
+    font-size: 19px;
+    color: var(--text-2);
+    max-width: 620px;
+    line-height: 1.65;
+    margin-bottom: 36px;
+  }
+  .hero .cta {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 22px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.2s;
+    cursor: pointer;
+    border: none;
+  }
+  .btn-primary {
+    background: var(--accent);
+    color: #0a0a0b;
+  }
+  .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(163,230,53,0.25); }
+  .btn-secondary {
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border-bright);
+  }
+  .btn-secondary:hover { background: var(--bg-2); border-color: var(--text-3); }
+
+  .hero .stats {
+    margin-top: 60px;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 32px;
+    padding: 28px 0;
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .stat .num {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    background: var(--gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+  .stat .label { font-size: 13px; color: var(--text-3); margin-top: 4px; }
+
+  /* Section */
+  section { padding: 100px 0; }
+  .section-head { margin-bottom: 56px; }
+  .section-head .eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 12px;
+  }
+  .section-head h2 {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+  .section-head p { color: var(--text-2); font-size: 17px; margin-top: 12px; max-width: 600px; }
+
+  /* About */
+  .about-grid { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: start; }
+  .about-text p { color: var(--text-2); font-size: 16px; margin-bottom: 16px; line-height: 1.75; }
+  .about-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+  }
+  .about-card h4 { font-size: 14px; color: var(--text-3); margin-bottom: 16px; font-weight: 500; }
+  .about-card .row {
+    display: flex;
+    justify-content: space-between;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+  .about-card .row:last-child { border-bottom: none; }
+  .about-card .row .key { color: var(--text-3); }
+  .about-card .row .val { color: var(--text); font-weight: 500; }
+
+  /* Skills */
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .skill-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 24px;
+    transition: all 0.2s;
+  }
+  .skill-card:hover { border-color: var(--border-bright); transform: translateY(-2px); }
+  .skill-card .icon {
+    width: 36px; height: 36px;
+    border-radius: 10px;
+    background: var(--bg-2);
+    display: flex; align-items: center; justify-content: center;
+    margin-bottom: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  .skill-card h3 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .skill-card .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+  .skill-card .tag {
+    font-size: 12px;
+    padding: 4px 10px;
+    background: var(--bg-2);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Projects */
+  .projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 28px;
+    transition: all 0.25s;
+    position: relative;
+    overflow: hidden;
+  }
+  .project-card::before {
+    content: "";
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: var(--gradient);
+    opacity: 0;
+    transition: opacity 0.25s;
+  }
+  .project-card:hover { border-color: var(--border-bright); transform: translateY(-3px); }
+  .project-card:hover::before { opacity: 1; }
+  .project-card.featured { grid-column: span 2; background: linear-gradient(135deg, #16161a 0%, #1a1a22 100%); }
+  .project-card .meta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: var(--text-3);
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .project-card .meta .badge {
+    padding: 3px 10px;
+    background: rgba(163,230,53,0.1);
+    color: var(--accent);
+    border-radius: 999px;
+    border: 1px solid rgba(163,230,53,0.2);
+  }
+  .project-card h3 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+  .project-card .company { font-size: 13px; color: var(--text-3); margin-bottom: 14px; }
+  .project-card p { color: var(--text-2); font-size: 14px; line-height: 1.65; margin-bottom: 18px; }
+  .project-card .stack {
+    display: flex; flex-wrap: wrap; gap: 6px;
+  }
+  .project-card .stack span {
+    font-size: 11px;
+    padding: 3px 9px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: var(--text-2);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* Contact */
+  .contact-card {
+    background: linear-gradient(135deg, var(--surface) 0%, var(--bg-2) 100%);
+    border: 1px solid var(--border-bright);
+    border-radius: 24px;
+    padding: 56px 48px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .contact-card::before {
+    content: "";
+    position: absolute;
+    top: -100px; left: 50%;
+    transform: translateX(-50%);
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(163,230,53,0.1) 0%, transparent 70%);
+  }
+  .contact-card > * { position: relative; z-index: 1; }
+  .contact-card h2 {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 16px;
+  }
+  .contact-card p { color: var(--text-2); font-size: 17px; margin-bottom: 32px; }
+  .contact-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+  footer {
+    padding: 32px 0;
+    text-align: center;
+    color: var(--text-3);
+    font-size: 13px;
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+  }
+
+  @media (max-width: 768px) {
+    .hero h1 { font-size: 44px; }
+    .hero .stats { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .about-grid { grid-template-columns: 1fr; gap: 24px; }
+    .skills-grid { grid-template-columns: 1fr; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card.featured { grid-column: span 1; }
+    .section-head h2 { font-size: 32px; }
+  }
+</style>
+</head>
+<body>
+  <nav>
+    <div class="nav-inner">
+      <div class="logo">Yongmin Kim</div>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#skills">Skills</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section class="hero">
+      <div class="pill"><span class="dot"></span>Open to work · 병역특례 보충역</div>
+      <h1>아이디어를 <span class="gradient">제품</span>으로<br/>완성하는 개발자</h1>
+      <p>2년차 풀스택 개발자. React · Next.js 기반 프론트엔드부터 Node.js 백엔드, 데이터베이스 설계, 배포까지 처음부터 끝까지 만들 수 있습니다.</p>
+      <div class="cta">
+        <a href="#projects" class="btn btn-primary">프로젝트 보기 →</a>
+        <a href="mailto:conceptelling@gmail.com" class="btn btn-secondary">연락하기</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><div class="num">2+</div><div class="label">Years Experience</div></div>
+        <div class="stat"><div class="num">10+</div><div class="label">Projects Shipped</div></div>
+        <div class="stat"><div class="num">5+</div><div class="label">Companies Worked</div></div>
+        <div class="stat"><div class="num">1</div><div class="label">Solo App</div></div>
+      </div>
+    </section>
+
+    <section id="about">
+      <div class="section-head">
+        <div class="eyebrow">// about</div>
+        <h2>혼자서도, 팀에서도<br/>끝까지 만듭니다</h2>
+      </div>
+      <div class="about-grid">
+        <div class="about-text">
+          <p>제품의 첫 화면부터 데이터베이스 스키마까지 직접 설계해왔습니다. 디자인 시안을 받아 구현하는 것을 넘어, 기획 단계에서 기술적 의사결정에 참여하고, 운영 중 발생하는 이슈를 백엔드까지 추적해 해결하는 것에 익숙합니다.</p>
+          <p>스타트업의 빠른 사이클로 기능을 출시하고, 외주 개발에서 다양한 도메인을 경험했습니다. <strong style="color: var(--text);">혼자 끝까지 만들 수 있다</strong>는 것이 가장 큰 강점입니다.</p>
+        </div>
+        <div class="about-card">
+          <h4>// quick info</h4>
+          <div class="row"><span class="key">Role</span><span class="val">Frontend · Fullstack</span></div>
+          <div class="row"><span class="key">Experience</span><span class="val">2+ years</span></div>
+          <div class="row"><span class="key">Status</span><span class="val" style="color: var(--accent);">Available</span></div>
+          <div class="row"><span class="key">Location</span><span class="val">Seoul, Korea</span></div>
+          <div class="row"><span class="key">병역</span><span class="val">보충역 (특례)</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="skills">
+      <div class="section-head">
+        <div class="eyebrow">// stack</div>
+        <h2>기술 스택</h2>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-card">
+          <div class="icon">FE</div>
+          <h3>Frontend</h3>
+          <div class="tags">
+            <span class="tag">React</span><span class="tag">Next.js</span><span class="tag">TypeScript</span><span class="tag">Tailwind</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">BE</div>
+          <h3>Backend</h3>
+          <div class="tags">
+            <span class="tag">Node.js</span><span class="tag">Express</span><span class="tag">REST</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">DB</div>
+          <h3>Database</h3>
+          <div class="tags">
+            <span class="tag">PostgreSQL</span><span class="tag">MongoDB</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">{ }</div>
+          <h3>Mobile</h3>
+          <div class="tags">
+            <span class="tag">Expo</span><span class="tag">React Native</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">⚙</div>
+          <h3>DevOps</h3>
+          <div class="tags">
+            <span class="tag">Vercel</span><span class="tag">AWS</span><span class="tag">Git</span>
+          </div>
+        </div>
+        <div class="skill-card">
+          <div class="icon">⚡</div>
+          <h3>Collaboration</h3>
+          <div class="tags">
+            <span class="tag">Slack</span><span class="tag">Jira</span><span class="tag">GitHub</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects">
+      <div class="section-head">
+        <div class="eyebrow">// selected work</div>
+        <h2>주요 프로젝트</h2>
+        <p>스타트업, 외주, 개인 프로젝트까지 — 다양한 환경에서 만든 제품들입니다.</p>
+      </div>
+      <div class="projects-grid">
+        <div class="project-card featured">
+          <div class="meta"><span>2025 · Solo</span><span class="badge">★ Featured</span></div>
+          <h3>Union — 대학교 학식 어플</h3>
+          <div class="company">기획 · 디자인 · FE · BE · DB · 배포 / 1인 개발</div>
+          <p>대학교 학식 정보를 한 곳에서 확인하는 모바일 어플. 기획부터 디자인, 프론트엔드, 백엔드, 데이터베이스, 서버 운영, 빌드/배포까지 혼자서 완성했습니다. 풀스택 역량을 가장 잘 보여주는 프로젝트입니다.</p>
+          <div class="stack">
+            <span>Expo</span><span>React Native</span><span>Node.js</span><span>PostgreSQL</span><span>AWS</span>
+          </div>
+        </div>
+
+        <div class="project-card">
+          <div class="meta"><span>2024 · Hackle</span></div>
+          <h3>Hackle A/B 테스트</h3>
+          <div class="company">대시보드 · 홈페이지 개발</div>
+          <p>실험 플랫폼의 대시보드와 홈페이지 개발. 데이터 시각화와 복잡한 상태 관리를 React로 구현했습니다.</p>
+          <div class="stack"><span>React</span><span>TypeScript</span><span>Dashboard</span></div>
+        </div>
+
+        <div class="project-card">
+          <div class="meta"><span>2024 · Dominate</span></div>
+          <h3>도미네이트</h3>
+          <div class="company">홈페이지 · 관리자 · 드랍페이지</div>
+          <p>회사의 메인 홈페이지부터 관리자 페이지, 캠페인 드랍페이지까지 프론트 전반을 담당.</p>
+          <div class="stack"><span>Next.js</span><span>TypeScript</span><span>Admin</span></div>
+        </div>
+
+        <div class="project-card">
+          <div class="meta"><span>2024 · KB</span><span class="badge" style="background: rgba(124,58,237,0.1); color: #c4b5fd; border-color: rgba(124,58,237,0.3);">Enterprise</span></div>
+          <h3>KB생명보험 영업관리자</h3>
+          <div class="company">외주 · FE React 개발자</div>
+          <p>대형 금융사 내부 시스템의 반응형 웹 개발에 FE 인력으로 참여.</p>
+          <div class="stack"><span>React</span><span>반응형</span></div>
+        </div>
+
+        <div class="project-card">
+          <div class="meta"><span>2023 · SULEGYM</span></div>
+          <h3>설레짐 (SULEGYM)</h3>
+          <div class="company">외주 어플 · FE + BE</div>
+          <p>외주로 진행한 모바일 어플리케이션. 프론트와 백엔드 양쪽을 담당했습니다.</p>
+          <div class="stack"><span>React Native</span><span>Node.js</span></div>
+        </div>
+
+        <div class="project-card">
+          <div class="meta"><span>2023 · 한미의담 + 엔벨롭스</span></div>
+          <h3>한미의담 · 엔벨롭스</h3>
+          <div class="company">홈페이지 · 관리자 · 백엔드</div>
+          <p>한미의담 홈페이지/관리자, 엔벨롭스 SAMS·홈 페이지 백엔드 개발.</p>
+          <div class="stack"><span>Next.js</span><span>Node.js</span><span>Admin</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="contact-card">
+        <h2>같이 만들어볼까요?</h2>
+        <p>병역특례 보충역으로 합류 가능한 회사를 찾고 있습니다.<br/>편하게 연락 주세요.</p>
+        <div class="contact-links">
+          <a href="mailto:conceptelling@gmail.com" class="btn btn-primary">📧 이메일 보내기</a>
+          <a href="#" class="btn btn-secondary">GitHub →</a>
+          <a href="#" class="btn btn-secondary">Resume PDF</a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Yongmin Kim · Built with Next.js + Vercel
+    </footer>
+  </div>
+</body>
+</html>
