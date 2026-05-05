@@ -1,183 +1,187 @@
+export type Badge = {
+  kind: "frontend" | "fullstack" | "solo" | "type" | "period";
+  label: string;
+};
+
+export type DidItem = {
+  accent?: string;
+  rest: string;
+};
+
 export type Featured = {
-  id: string;
-  bgClass: string;
-  archLeft: string;
-  archRight: string;
+  id: "envelopes" | "sulegym" | "kb" | "hanmi";
+  bgClass: "envelopes" | "sulegym" | "kb" | "hanmi";
   visualTag: string;
   visualTitle: string;
   visualSubtitle: string;
-  title: string;
-  tagRow: string;
-  description: string;
-  features: string[];
+
+  // card
+  cardTitle: string;
+  cardBadges: Badge[];
+  cardTagline: string;
+  cardStack: string[];
+
+  // modal
+  modalVisualTag: string;
+  modalTitle: string;
+  modalTaglineHTML: string;
+  did: DidItem[];
   stack: string[];
-  results: { value: string; label: string; color: string }[];
 };
 
 export const featured: Featured[] = [
   {
     id: "envelopes",
     bgClass: "envelopes",
-    archLeft: `  Microfrontend
-  6 services
-   │
-   ├─ Next.js 14
-   │
-   ▼
-   Nginx Gateway
-   │
-   ▼
-   AWS EKS + ALB`,
-    archRight: `  PBAC + JWT
-  Auto-refresh
-  Multi-tab Sync
-  Mapbox GL
-  next-intl ko/en
-  Panda CSS`,
-    visualTag: "OUTSOURCED · FULLSTACK · 2025-2026",
+    visualTag: "★ LATEST",
     visualTitle: "Envelopes",
-    visualSubtitle: "SAMS · Homepage · 6 Services Microfrontend",
-    title: "Envelopes — SAMS + Homepage 마이크로프론트엔드 플랫폼",
-    tagRow: "OUTSOURCED · LATEST · MOST CHALLENGING · 2025.06 ~ 2026.01",
-    description:
-      "영농형 태양광 자산관리 시스템(SAMS)과 회사 홈페이지를 단일 도메인에서 운영하는 마이크로프론트엔드 플랫폼. Next.js 14 App Router 기반 6개 독립 서비스(home/mpp/company/business/subscription/mypage)를 path-based routing으로 통합 운영.",
-    features: [
-      "<strong>Microfrontend 아키텍처:</strong> 6개 독립 Next.js 서비스 + pnpm workspace + 공통 설정 추상화로 DX와 일관성 동시 확보",
-      "<strong>Nginx 통합 게이트웨이:</strong> Referer 기반 동적 upstream 매핑으로 _next/static 충돌 해결, API 10r/s · static 50r/s Rate Limit",
-      "<strong>JWT + PBAC 권한 엔진:</strong> Action × Resource × Effect 매칭, 만료 5분 전 자동 갱신, 멀티탭 storage 동기화",
-      "<strong>실시간 IoT 대시보드:</strong> Plant→PLC→SLU→센서→인버터→기상관측소 6단계 계층 모델, Nivo 라인차트, SLU 각도 일괄 제어",
-      "<strong>AWS EKS + Kustomize:</strong> base/overlay 환경별 매니페스트, GitHub Actions paths 필터로 변경된 서비스만 배포",
+    visualSubtitle: "SAMS · 태양광 모니터링",
+
+    cardTitle: "Envelopes SAMS Platform",
+    cardBadges: [
+      { kind: "frontend", label: "Frontend" },
+      { kind: "type", label: "Enterprise" },
+      { kind: "period", label: "2025 — 현재" },
+    ],
+    cardTagline:
+      "태양광 발전소 통합 모니터링·운영 플랫폼. 어드민 콘솔과 6개 마이크로프론트엔드를 단일 도메인에서 운영.",
+    cardStack: ["Next.js", "TypeScript", "Panda CSS"],
+
+    modalVisualTag: "★ LATEST · ENTERPRISE",
+    modalTitle: "Envelopes SAMS Platform",
+    modalTaglineHTML:
+      "태양광 발전소 통합 모니터링·운영 플랫폼.<br/>어드민 콘솔과 사용자 사이트를 하나의 도메인에서 운영하는 마이크로프론트엔드.",
+    did: [
+      { accent: "14개+ 운영 도메인", rest: "을 단일 어드민으로 통합" },
+      { accent: "6개 서비스", rest: "를 마이크로프론트엔드로 분리해 독립 배포" },
+      { rest: "디자인 시스템·국제화·인증 레이어를 공통 기반으로 정리" },
+      { rest: "백엔드 미가용 상태에서도 풀스택 시뮬레이션 가능한 Mock 환경 구축" },
     ],
     stack: [
       "Next.js 14",
+      "React 18",
       "TypeScript",
       "Panda CSS",
       "TanStack Query",
       "Redux Toolkit",
-      "Nivo",
-      "Mapbox GL",
-      "next-intl",
-      "Docker",
-      "AWS EKS",
-      "Kustomize",
-      "Nginx",
-    ],
-    results: [
-      { value: "6", label: "Microservices", color: "var(--blue)" },
-      { value: "PBAC", label: "Auth Engine", color: "var(--blue)" },
-      { value: "ko/en", label: "i18n", color: "var(--blue)" },
     ],
   },
   {
     id: "sulegym",
     bgClass: "sulegym",
-    archLeft: `  Mobile (Expo)
-   │
-   ├─ Socket.IO
-   │
-   ▼
-   Express + JWT
-   │
-   ▼
-   PBAC Engine
-   │
-   ▼
-   PG + Redis`,
-    archRight: `  Claude SDK
-  Tool-use
-  Toss Payments
-  Realtime Mate
-  Season Ranking
-  Gamification`,
-    visualTag: "OUTSOURCED · SOLO FULLSTACK",
+    visualTag: "FULLSTACK",
     visualTitle: "SULEGYM",
-    visualSubtitle: "Social Fitness Platform · 풀스택 단독",
-    title: "SULEGYM (설레짐) — 소셜 피트니스 플랫폼",
-    tagRow: "OUTSOURCED · SOLO ARCHITECT · 2025.12 ~ 2026.03",
-    description:
-      "운동 루틴 기록 · AI 트레이너 · 메이트 매칭 · PT 트레이너 예약 · 토스페이먼츠 구독결제 · 시즌 랭킹·배지를 통합한 모바일 앱과 백엔드. 588 TS 파일 / 76 모델 / 83 라우트 규모를 1인으로 설계·구현.",
-    features: [
-      "<strong>자체 PBAC 엔진:</strong> minimatch glob 기반 action/resource 매칭, condition evaluator, Explicit Deny 우선순위 보장",
-      "<strong>Claude AI 트레이너:</strong> 사용자 운동 이력/선호도 컨텍스트 주입 + Tool-use(create_routine)로 자연어→루틴 자동 생성",
-      "<strong>2단 채팅 모더레이션:</strong> 정규식 사전 필터(욕설/성/폭력) → LLM 분석 파이프라인으로 비용·지연·정확도 trade-off 최적화",
-      "<strong>실시간 시스템:</strong> Socket.IO JWT 인증 소켓, 메이트 운동 세트 동기화, 클라이언트 메시지 ID 기반 idempotency, expo-push fallback",
-      "<strong>토스페이먼츠 직접 연동:</strong> SDK 미사용 raw API, 웹훅 라우터를 JWT 미들웨어 이전에 등록해 서명 검증 분기",
-      "<strong>K8s 운영:</strong> SIGTERM 30s graceful shutdown (HTTP→Redis→DB), liveness/readiness probe + Redis health 노출",
+    visualSubtitle: "피트니스 SNS · 운동 트래킹",
+
+    cardTitle: "SULEGYM (설레짐)",
+    cardBadges: [
+      { kind: "fullstack", label: "Fullstack" },
+      { kind: "type", label: "외주" },
+      { kind: "period", label: "2024 — 2025" },
+    ],
+    cardTagline:
+      "헬스장 체크인·운동 기록·메이트 매칭·구독 결제 피트니스 SNS. iOS/Android 앱 + 백엔드 단독 구현.",
+    cardStack: ["Expo", "RN", "Node.js"],
+
+    modalVisualTag: "FULLSTACK · MOBILE",
+    modalTitle: "SULEGYM (설레짐)",
+    modalTaglineHTML:
+      "헬스장 체크인·운동 기록·메이트 매칭·시즌 랭킹·구독 결제까지 다루는 피트니스 SNS.<br/>iOS/Android 앱과 백엔드 모놀리스 양쪽을 단독으로 설계·구현.",
+    did: [
+      { accent: "iOS·Android 모바일 앱", rest: "을 단독으로 설계·출시" },
+      {
+        accent: "20개+ 도메인 백엔드",
+        rest: "를 단일 서비스로 일관성 있게 모듈화",
+      },
+      { rest: "실시간 채팅·푸시·위치 기반 기능과 결제·랭킹·AI 어시스트 동시 운영" },
+      { rest: "앱 스토어 빌드 없이 OTA로 업데이트 배포하는 운영 체계 구성" },
     ],
     stack: [
-      "TypeScript",
-      "Express",
-      "PostgreSQL",
-      "Sequelize-TS",
-      "Redis",
-      "Socket.IO",
-      "Claude SDK",
-      "Toss Payments",
       "Expo SDK 54",
       "React Native",
-      "TanStack Query",
-      "Docker",
-      "Kubernetes",
-    ],
-    results: [
-      { value: "588", label: "TS Files", color: "var(--purple)" },
-      { value: "76", label: "DB Models", color: "var(--purple)" },
-      { value: "83", label: "Routes", color: "var(--purple)" },
+      "TypeScript",
+      "Node.js",
+      "PostgreSQL",
+      "Redis",
+      "Socket.IO",
     ],
   },
   {
-    id: "union",
-    bgClass: "union",
-    archLeft: `  Mobile (Expo)
-   │
-   ├─ TossPayments
-   │
-   ▼
-   Express + JWT
-   │
-   ▼
-   PostgreSQL
-   │
-   ▼
-   Docker + AWS`,
-    archRight: `  ─ 1 person ─
-  Plan + Design
-  Frontend
-  Backend
-  15 Tables
-  Sales`,
-    visualTag: "★ FEATURED · SOLO PERSONAL PROJECT",
-    visualTitle: "Union",
-    visualSubtitle: "대학교 음식 주문 풀스택 앱",
-    title: "Union — 대학교 음식 주문 풀스택 앱",
-    tagRow: "PERSONAL · SOLO · DEV + SALES · 2025.10 ~ 2026.01",
-    description:
-      "대학교 음식 주문 + 픽업 + 키친 디스플레이까지 다룬 풀스택 앱. 기획·디자인·DB 스키마·백엔드·모바일 앱·세일즈까지 1인이 전부 진행. 풀스택 역량을 가장 잘 보여주는 프로젝트.",
-    features: [
-      "<strong>풀스택 단독 설계:</strong> 기획→ERD→API→UI까지 일관된 흐름, 15테이블 정규화 + 의도적 비정규화를 트리거로 동기화",
-      "<strong>토스페이먼츠 위젯 연동:</strong> 결제 컴포넌트 16개 분리 (쿠폰·포인트·카드·픽업·약관) — 단순 호출이 아닌 결제 UX 모듈화",
-      "<strong>트랜잭션 안전성:</strong> BEGIN/COMMIT 명시 트랜잭션, 메뉴/옵션 가용성 검증 → 가격 계산 → 주문 생성을 한 단위로 묶어 정합성 보장",
-      "<strong>OAuth + JWT 듀얼:</strong> 자체 회원가입/로그인 + Google ID Token 검증 병행, access/refresh 토큰 분리 + 갱신 엔드포인트",
-      "<strong>실시간 키친 디스플레이:</strong> kitchen.controller 872줄 + B2B 운영 화면 + WebSocket — 단순 고객 앱이 아닌 운영 시스템까지 커버",
-      "<strong>운영급 미들웨어:</strong> helmet, rate-limit (15min/100req), 글로벌 에러 핸들러, 일관된 응답 포맷, Swagger 자동 문서화",
+    id: "kb",
+    bgClass: "kb",
+    visualTag: "ENTERPRISE · LGCNS",
+    visualTitle: "KB Life",
+    visualSubtitle: "영업관리자 시스템",
+
+    cardTitle: "KB생명보험 영업관리자",
+    cardBadges: [
+      { kind: "frontend", label: "Frontend" },
+      { kind: "type", label: "Enterprise" },
+      { kind: "period", label: "2022.07 — 2022.10" },
+    ],
+    cardTagline:
+      "영업관리자(GA)·재무설계사(FP)·지점 통합정보조회 시스템. 6개+ 도메인 / 30개+ 라우트 SPA 구축.",
+    cardStack: ["React 18", "Redux Toolkit", "MUI v5"],
+
+    modalVisualTag: "ENTERPRISE · LGCNS / 넥스링크",
+    modalTitle: "KB생명보험 영업관리자",
+    modalTaglineHTML:
+      "영업관리자(GA)·재무설계사(FP)·지점(Branch) 통합정보조회 시스템.<br/>매출·계약·가입설계 실적, 일정관리, 게시판·알림·자료실까지 단일 SPA로 구축.",
+    did: [
+      {
+        accent: "6개+ 독립 도메인 / 30개+ 라우트",
+        rest: " SPA를 단일 코드베이스로 통합",
+      },
+      { accent: "24개+ 공통 컴포넌트", rest: " 시스템 설계로 화면 일관성 확보" },
+      { rest: "실적 차트(Nivo) · 캘린더 · 지도 기반 일정관리 통합" },
+      { rest: "대형 금융사 보안·컨벤션을 따르며 프론트엔드 개발 총괄 수행" },
     ],
     stack: [
-      "TypeScript",
-      "Express",
-      "PostgreSQL",
-      "JWT",
-      "Google OAuth",
-      "Toss Payments",
-      "Expo SDK 54",
-      "React Native",
-      "expo-router",
-      "WebSocket",
-      "Docker",
+      "React 18",
+      "Redux Toolkit",
+      "MUI v5",
+      "React Router 6",
+      "React Hook Form 7",
+      "Nivo",
+      "FullCalendar",
+      "MUI X DataGrid",
     ],
-    results: [
-      { value: "15", label: "Tables", color: "var(--green)" },
-      { value: "1", label: "Architect", color: "var(--green)" },
-      { value: "100%", label: "Self-built", color: "var(--green)" },
+  },
+  {
+    id: "hanmi",
+    bgClass: "hanmi",
+    visualTag: "ENTERPRISE",
+    visualTitle: "의담",
+    visualSubtitle: "한미약품 · UIDAM Admin",
+
+    cardTitle: "한미약품 의담 Admin",
+    cardBadges: [
+      { kind: "frontend", label: "Frontend" },
+      { kind: "type", label: "Enterprise" },
+      { kind: "period", label: "2023 — 2024" },
+    ],
+    cardTagline:
+      "의료진 대상 세미나·교육·회원·배너·이벤트 운영을 통합한 8개 독립 도메인 어드민 SPA.",
+    cardStack: ["React 18", "Redux Toolkit", "MUI"],
+
+    modalVisualTag: "ENTERPRISE · 한미약품",
+    modalTitle: "한미약품 의담 Admin",
+    modalTaglineHTML:
+      "의료진 대상 세미나·교육 관리, 회원 관리, 배너·이벤트·공지·문의 운영을 통합한 어드민 콘솔.",
+    did: [
+      { accent: "8개 도메인", rest: "을 단일 어드민 SPA로 통합" },
+      { rest: "JWT 인증 인터셉터로 토큰 자동 재발행 흐름 구축" },
+      { rest: "CKEditor 기반 리치 콘텐츠 에디터와 엑셀 일괄 처리 기능 도입" },
+      { rest: "AWS S3 + CloudFront 정적 호스팅 파이프라인 구성" },
+    ],
+    stack: [
+      "React 18",
+      "TypeScript",
+      "Redux Toolkit",
+      "redux-saga",
+      "MUI v5",
+      "CKEditor 5",
+      "ApexCharts",
     ],
   },
 ];
@@ -186,35 +190,33 @@ export type More = {
   year: string;
   role: string;
   title: string;
-  featuredLine?: string;
   description: string;
   features: string[];
 };
 
 export const more: More[] = [
   {
-    year: "2022.11 — 2023.06",
-    role: "// 주식회사 도미네이트",
-    title: "도미네이트",
-    featuredLine: "한미의담 클라이언트 관리자/사용자 반응형 페이지 (주요 작업)",
+    year: "2024 — 현재",
+    role: "// Personal · Solo",
+    title: "UNION / mirine",
     description:
-      "한미의담 관리자·사용자 반응형 페이지 개발을 메인으로, 사내 드랍페이지·3D 프로젝트·퍼블리싱까지 프론트 전반을 담당. 사원/팀원 (8개월).",
-    features: ["Next.js", "TypeScript", "한미의담 Admin", "Drop Page", "3D", "퍼블리싱"],
+      "대학교 캠퍼스 내 음식 주문·픽업 서비스. 기획·디자인·앱·백엔드·DB·KDS·결제까지 1인 풀사이클 개발.",
+    features: ["React Native", "Expo", "Node.js", "PostgreSQL"],
   },
   {
-    year: "2022.08 — 2022.11",
-    role: "// KB생명보험 (외주)",
-    title: "KB생명보험 영업관리자",
-    description:
-      "대형 금융사 내부 시스템의 관리자 Web/모바일 페이지를 반응형으로 개발. 임시직/프리랜서 4개월.",
-    features: ["React", "반응형", "Web + Mobile", "Enterprise"],
-  },
-  {
-    year: "2021.07 — 2022.01",
+    year: "2021 — 2022",
     role: "// Hackle",
-    title: "Hackle",
+    title: "A/B 테스트 운영 대시보드",
     description:
-      "A/B 테스트 SaaS 스타트업에서 사내 아이템 개발에 프론트엔드 사원으로 참여. 7개월.",
-    features: ["React", "TypeScript", "SaaS", "A/B Testing"],
+      "실험·피처 플래그·퍼널·이벤트 분석·모니터링 알람·구독 관리를 제공하는 어드민 SPA. Highcharts 기반 메트릭 시각화.",
+    features: ["React", "TypeScript", "Recoil + SWR", "Highcharts"],
+  },
+  {
+    year: "2022 — 2023",
+    role: "// 도미네이트",
+    title: "홈페이지 · 관리자 · 드랍페이지",
+    description:
+      "회사 메인 홈페이지부터 관리자 페이지, 캠페인 드랍페이지·3D 프로젝트·퍼블리싱까지 프론트 전반을 담당.",
+    features: ["Next.js", "TypeScript", "3D", "반응형"],
   },
 ];

@@ -26,9 +26,6 @@ export default function MoreWork() {
                 <span className="more-role">{m.role}</span>
               </div>
               <h3>{m.title}</h3>
-              {m.featuredLine && (
-                <div className="featured-line">{m.featuredLine}</div>
-              )}
               <p>{m.description}</p>
               <div className="more-features">
                 {m.features.map((f) => (

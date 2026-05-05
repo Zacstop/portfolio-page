@@ -46,8 +46,7 @@ export default function FadeIn({
     .join(" ");
 
   return (
-    // @ts-expect-error dynamic tag
-    <Tag ref={ref} className={cls}>
+    <Tag ref={ref as React.RefObject<HTMLDivElement>} className={cls}>
       {children}
     </Tag>
   );
