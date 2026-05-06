@@ -3,7 +3,7 @@ export const profile = {
   initials: "JH",
   role: "Frontend · Fullstack Developer",
   location: "Seoul, KR",
-  email: "conceptelling@gmail.com",
+  email: "zaca3392@gmail.com",
   github: {
     main: { username: "Zacstop", label: "개인 개발용", url: "https://github.com/Zacstop" },
     sub: { username: "Maka2222", label: "외주 개발용", url: "https://github.com/Maka2222" },
