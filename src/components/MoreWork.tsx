@@ -7,11 +7,11 @@ export default function MoreWork() {
       <div className="more-inner">
         <FadeIn className="more-header">
           <div className="section-label">// other work</div>
-          <h2>Past Experience</h2>
+          <h2>Other Projects</h2>
         </FadeIn>
         <FadeIn>
           <p className="more-sub">
-            초기 경력 — 스타트업, 외주, 사내 개발 환경에서 다양한 도메인 경험.
+            스타트업, 외주, 사내 개발 환경에서 다뤄본 다양한 도메인의 프로젝트들.
           </p>
         </FadeIn>
         <div className="more-grid">
