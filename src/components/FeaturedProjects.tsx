@@ -4,6 +4,29 @@ import { useEffect, useState } from "react";
 import { featured, type Featured } from "@/data/projects";
 import FadeIn from "./FadeIn";
 
+function ShotImage({
+  src,
+  alt,
+  className,
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
+  return (
+    <img
+      className={`project-shot ${className ?? ""}`}
+      src={src}
+      alt={alt}
+      loading="lazy"
+      decoding="async"
+      onError={(e) => {
+        e.currentTarget.classList.add("project-shot-failed");
+      }}
+    />
+  );
+}
+
 function ProjectCard({
   project,
   delay,
@@ -13,12 +36,10 @@ function ProjectCard({
   delay: 0 | 1;
   onOpen: () => void;
 }) {
+  const cover = project.images[0];
+
   return (
-    <FadeIn
-      delay={delay}
-      className="project-card"
-      as="article"
-    >
+    <FadeIn delay={delay} className="project-card" as="article">
       <button
         type="button"
         onClick={onOpen}
@@ -26,16 +47,11 @@ function ProjectCard({
         aria-label={`${project.cardTitle} 상세 보기`}
       >
         <div className="project-card-visual">
-          <div className={`project-visual-bg ${project.bgClass}`}>
-            <div className="project-visual-overlay">
-              <div className="project-visual-content">
-                <div className="project-visual-tag">{project.visualTag}</div>
-                <div className="project-visual-title">{project.visualTitle}</div>
-                <div className="project-visual-subtitle">
-                  {project.visualSubtitle}
-                </div>
-              </div>
-            </div>
+          <div className={`project-visual-bg ${project.bgClass}`} aria-hidden />
+          <ShotImage src={cover.src} alt={`${project.cardTitle} 대표 화면`} />
+          <div className="project-card-badge">
+            <span className="dot" aria-hidden />
+            {project.visualTag}
           </div>
         </div>
         <div className="project-card-body">
@@ -74,6 +90,11 @@ function ProjectModal({
   project: Featured;
   onClose: () => void;
 }) {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const total = project.images.length;
+  const active = project.images[activeIdx];
+  const counter = `${String(activeIdx + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
+
   return (
     <div
       className="modal-overlay open"
@@ -84,7 +105,7 @@ function ProjectModal({
         if (e.target === e.currentTarget) onClose();
       }}
     >
-      <div className="modal">
+      <div className="modal modal-gallery">
         <button
           type="button"
           className="modal-close"
@@ -93,21 +114,51 @@ function ProjectModal({
         >
           ×
         </button>
-        <div className="modal-visual">
-          <div className={`project-visual-bg ${project.bgClass}`}>
-            <div className="project-visual-overlay">
-              <div className="project-visual-content">
-                <div className="project-visual-tag">{project.modalVisualTag}</div>
-                <div className="project-visual-title">{project.visualTitle}</div>
-                <div className="project-visual-subtitle">
-                  {project.visualSubtitle}
-                </div>
-              </div>
+
+        <div className="modal-shots">
+          <div className="modal-shot-main">
+            <div
+              className={`project-visual-bg ${project.bgClass}`}
+              aria-hidden
+            />
+            <ShotImage
+              key={active.src}
+              src={active.src}
+              alt={active.caption}
+            />
+            <div className="modal-shot-meta">
+              <div className="modal-shot-counter">SCREEN {counter}</div>
+              <div className="modal-shot-caption">{active.caption}</div>
             </div>
           </div>
+          <div
+            className="modal-thumbs"
+            role="tablist"
+            aria-label="프로젝트 화면 갤러리"
+          >
+            {project.images.map((img, i) => (
+              <button
+                key={img.src}
+                type="button"
+                role="tab"
+                aria-selected={i === activeIdx}
+                aria-label={`${i + 1}번 화면: ${img.caption}`}
+                className={`modal-thumb ${i === activeIdx ? "active" : ""}`}
+                onClick={() => setActiveIdx(i)}
+              >
+                <div
+                  className={`project-visual-bg ${project.bgClass}`}
+                  aria-hidden
+                />
+                <ShotImage src={img.src} alt="" />
+              </button>
+            ))}
+          </div>
         </div>
+
         <div className="modal-body">
           <div>
+            <div className="modal-eyebrow">{project.modalVisualTag}</div>
             <div className="project-title-row">
               <h3 id={`modal-${project.id}-title`}>{project.modalTitle}</h3>
               <div className="project-badges">

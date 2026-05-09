@@ -15,11 +15,11 @@ export default function Home() {
       <ScrollProgress />
       <Nav />
       <Hero />
-      <Pillars />
       <FeaturedProjects />
       <MoreWork />
       <TechStack />
       <Career />
+      <Pillars />
 
       <section className="contact" id="contact">
         <FadeIn>

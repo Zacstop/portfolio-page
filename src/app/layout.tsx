@@ -47,13 +47,24 @@ export const metadata: Metadata = {
   },
 };
 
+// 하이드레이션 전에 실행되어 FOUC를 방지하는 테마 부트스트랩 스크립트.
+// localStorage 우선, 없으면 prefers-color-scheme, 마지막 fallback은 dark.
+const themeBootstrap = `(function(){try{var t=localStorage.getItem('theme');if(!t){t=window.matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`;
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${inter.variable} ${jbm.variable}`}>
+    <html
+      lang="ko"
+      className={`${inter.variable} ${jbm.variable}`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeBootstrap }} />
+      </head>
       <body>{children}</body>
     </html>
   );

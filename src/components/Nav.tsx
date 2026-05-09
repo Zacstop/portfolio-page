@@ -1,13 +1,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
-  { href: "#pillars", label: "Capabilities" },
   { href: "#projects", label: "Projects" },
   { href: "#more", label: "More Work" },
   { href: "#techstack", label: "Stack" },
   { href: "#career", label: "Career" },
+  { href: "#pillars", label: "Capabilities" },
 ];
 
 export default function Nav() {
@@ -34,9 +35,12 @@ export default function Nav() {
             </li>
           ))}
         </ul>
-        <a href="#contact" className="nav-cta">
-          Contact →
-        </a>
+        <div className="nav-actions">
+          <ThemeToggle />
+          <a href="#contact" className="nav-cta">
+            Contact →
+          </a>
+        </div>
       </div>
     </nav>
   );

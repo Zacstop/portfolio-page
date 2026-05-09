@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>이미지 기반 프로젝트 시안 | Kang Joon Hyung</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #000;
+      --white: #f5f5f7;
+      --gray-100: #1d1d1f;
+      --gray-200: #2d2d2f;
+      --gray-300: #424245;
+      --gray-400: #6e6e73;
+      --gray-500: #86868b;
+      --gray-600: #a1a1a6;
+      --blue: #2997ff;
+      --purple: #bf5af2;
+      --green: #30d158;
+      --orange: #ff9f0a;
+      --red: #ff453a;
+      --cyan: #64d2ff;
+      --lime: #a3e635;
+    }
+
+    html { scroll-behavior: smooth; background: var(--black); color: var(--white); }
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      background: var(--black);
+      color: var(--white);
+    }
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* =========================================================
+       시안 노트 (실제 페이지에는 들어가지 않음)
+       ========================================================= */
+    .doc-note {
+      max-width: 1200px;
+      margin: 80px auto 40px;
+      padding: 24px 28px;
+      border: 1px dashed rgba(163, 230, 53, 0.4);
+      border-radius: 16px;
+      background: rgba(163, 230, 53, 0.04);
+    }
+    .doc-note .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--lime);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .doc-note h1 {
+      font-size: 22px;
+      letter-spacing: -0.5px;
+      margin-bottom: 12px;
+    }
+    .doc-note p {
+      font-size: 14px;
+      line-height: 1.7;
+      color: var(--gray-500);
+    }
+    .doc-note p + p { margin-top: 8px; }
+    .doc-note strong { color: var(--white); font-weight: 500; }
+
+    /* =========================================================
+       Section heading
+       ========================================================= */
+    .section-heading {
+      max-width: 1200px;
+      margin: 100px auto 32px;
+      padding: 0 24px;
+    }
+    .section-heading .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--lime);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+    .section-heading h2 {
+      font-size: clamp(28px, 4vw, 40px);
+      font-weight: 700;
+      letter-spacing: -1px;
+    }
+    .section-heading .desc {
+      font-size: 14px;
+      color: var(--gray-500);
+      margin-top: 8px;
+    }
+
+    /* =========================================================
+       Mock screenshot: 모든 가짜 스크린샷의 공통 컨테이너
+       실제 운영시에는 <img src="..." /> 한 줄로 교체됩니다
+       ========================================================= */
+    .shot {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: #0a0a0c;
+    }
+    .shot::after {
+      content: "📷 프로젝트 스크린샷 영역";
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.5px;
+      color: rgba(255,255,255,0.5);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      padding: 4px 10px;
+      border-radius: 100px;
+      border: 1px solid rgba(255,255,255,0.1);
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    /* ========== Mock: Envelopes - SAMS 어드민 대시보드 ========== */
+    .shot.mock-envelopes {
+      background: #0c1426;
+      display: grid;
+      grid-template-columns: 56px 1fr;
+      grid-template-rows: 36px 1fr;
+    }
+    .mock-envelopes .topbar {
+      grid-column: 1 / -1;
+      background: #0a1020;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      gap: 8px;
+    }
+    .mock-envelopes .topbar .logo {
+      width: 14px; height: 14px; border-radius: 4px;
+      background: linear-gradient(135deg, #2997ff, #64d2ff);
+    }
+    .mock-envelopes .topbar .title {
+      font-size: 11px; color: #8da4cf; font-weight: 600;
+    }
+    .mock-envelopes .topbar .breadcrumb {
+      flex: 1; display: flex; gap: 6px; align-items: center;
+    }
+    .mock-envelopes .topbar .crumb {
+      font-size: 10px; color: rgba(255,255,255,0.4);
+      padding: 2px 8px; border-radius: 4px;
+      background: rgba(41, 151, 255, 0.08);
+    }
+    .mock-envelopes .sidebar {
+      background: #0a1020;
+      border-right: 1px solid rgba(255,255,255,0.06);
+      padding: 12px 0;
+      display: flex; flex-direction: column; align-items: center; gap: 10px;
+    }
+    .mock-envelopes .sidebar .item {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: rgba(255,255,255,0.04);
+    }
+    .mock-envelopes .sidebar .item.active {
+      background: rgba(41, 151, 255, 0.25);
+      border: 1px solid rgba(41, 151, 255, 0.4);
+    }
+    .mock-envelopes .main {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: 56px 1fr 1fr;
+      gap: 10px;
+    }
+    .mock-envelopes .kpi {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .mock-envelopes .kpi .lbl { font-size: 9px; color: rgba(255,255,255,0.5); }
+    .mock-envelopes .kpi .val { font-size: 14px; font-weight: 700; color: #64d2ff; }
+    .mock-envelopes .chart {
+      grid-column: span 2;
+      grid-row: span 2;
+      background: rgba(41, 151, 255, 0.05);
+      border: 1px solid rgba(41, 151, 255, 0.15);
+      border-radius: 8px;
+      position: relative;
+      overflow: hidden;
+    }
+    .mock-envelopes .chart::before {
+      content: "";
+      position: absolute;
+      bottom: 20%; left: 8%; right: 8%; height: 60%;
+      background:
+        linear-gradient(180deg, rgba(41, 151, 255, 0.4) 0%, transparent 100%);
+      clip-path: polygon(0 80%, 8% 65%, 16% 70%, 25% 50%, 35% 55%, 45% 35%, 55% 45%, 65% 25%, 75% 38%, 85% 20%, 100% 30%, 100% 100%, 0 100%);
+    }
+    .mock-envelopes .chart::after {
+      content: "발전량 추이 (MWh)";
+      position: absolute; top: 10px; left: 12px;
+      font-size: 10px; color: #64d2ff; font-weight: 600;
+    }
+    .mock-envelopes .table {
+      grid-column: span 2;
+      grid-row: span 2;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 8px;
+      padding: 10px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .mock-envelopes .table .row {
+      height: 14px;
+      background: rgba(255,255,255,0.04);
+      border-radius: 3px;
+    }
+    .mock-envelopes .table .row:first-child { background: rgba(41, 151, 255, 0.2); }
+
+    /* ========== Mock: SULEGYM - 모바일 앱 ========== */
+    .shot.mock-sulegym {
+      background: radial-gradient(ellipse at 30% 30%, #1a4a32 0%, #0a2818 60%, #061f12 100%);
+      display: flex; align-items: center; justify-content: center;
+      gap: 16px;
+      padding: 20px;
+    }
+    .mock-sulegym .phone {
+      width: 28%;
+      max-width: 140px;
+      aspect-ratio: 9/19;
+      background: #0a0e0a;
+      border-radius: 18px;
+      border: 2px solid #1a1f1a;
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+      position: relative;
+      overflow: hidden;
+      padding: 8px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mock-sulegym .phone::before {
+      content: "";
+      position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+      width: 36px; height: 4px;
+      background: #000; border-radius: 4px;
+    }
+    .mock-sulegym .phone .header {
+      margin-top: 14px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .mock-sulegym .phone .header .greet { font-size: 8px; color: #a3e635; font-weight: 600; }
+    .mock-sulegym .phone .header .avatar {
+      width: 14px; height: 14px; border-radius: 50%;
+      background: linear-gradient(135deg, #a3e635, #64d2ff);
+    }
+    .mock-sulegym .phone .checkin {
+      background: linear-gradient(135deg, #1a4a32, #0d2818);
+      border: 1px solid rgba(163, 230, 53, 0.3);
+      border-radius: 6px;
+      padding: 8px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .mock-sulegym .phone .checkin .lbl { font-size: 7px; color: #a3e635; }
+    .mock-sulegym .phone .checkin .val { font-size: 11px; font-weight: 700; color: #fff; }
+    .mock-sulegym .phone .feed {
+      flex: 1;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .mock-sulegym .phone .feed .item {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border-radius: 4px;
+      display: flex; align-items: center; padding: 4px;
+      gap: 4px;
+    }
+    .mock-sulegym .phone .feed .item .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: #a3e635;
+    }
+    .mock-sulegym .phone .feed .item .bar {
+      flex: 1; height: 3px; background: rgba(255,255,255,0.1);
+      border-radius: 2px;
+    }
+    .mock-sulegym .phone .tabbar {
+      height: 18px;
+      background: rgba(0,0,0,0.4);
+      border-radius: 4px;
+      display: flex; align-items: center; justify-content: space-around;
+    }
+    .mock-sulegym .phone .tabbar .tab {
+      width: 8px; height: 8px; border-radius: 2px;
+      background: rgba(255,255,255,0.15);
+    }
+    .mock-sulegym .phone .tabbar .tab.active { background: #a3e635; }
+    .mock-sulegym .phone.secondary { transform: translateY(20px); opacity: 0.7; }
+    .mock-sulegym .phone.tertiary { transform: translateY(-12px); opacity: 0.5; }
+
+    /* ========== Mock: KB Life - 영업관리자 대시보드 ========== */
+    .shot.mock-kb {
+      background: #1a0d0a;
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      grid-template-rows: 30px 1fr;
+    }
+    .mock-kb .topbar {
+      grid-column: 1 / -1;
+      background: #2a1610;
+      display: flex; align-items: center; padding: 0 12px; gap: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .mock-kb .topbar .brand {
+      font-size: 11px; font-weight: 800; color: #ffae42;
+      letter-spacing: -0.5px;
+    }
+    .mock-kb .topbar .nav-item {
+      font-size: 9px; color: rgba(255,255,255,0.5);
+      padding: 2px 6px;
+    }
+    .mock-kb .topbar .nav-item.active { color: #ffae42; }
+    .mock-kb .sidebar {
+      background: #1f0f0a; padding: 10px 8px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .mock-kb .sidebar .menu {
+      height: 16px; border-radius: 3px;
+      background: rgba(255,255,255,0.04);
+    }
+    .mock-kb .sidebar .menu.active {
+      background: rgba(255, 174, 66, 0.15);
+      border-left: 2px solid #ffae42;
+    }
+    .mock-kb .main {
+      padding: 12px;
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .mock-kb .main .filter-row {
+      display: flex; gap: 6px;
+    }
+    .mock-kb .main .filter-row .pill {
+      height: 18px; flex: 1;
+      background: rgba(255,255,255,0.04);
+      border-radius: 4px;
+    }
+    .mock-kb .main .filter-row .pill.primary {
+      background: rgba(255, 174, 66, 0.2); flex: 0.5;
+    }
+    .mock-kb .main .grid {
+      flex: 1;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      padding: 6px;
+      display: flex; flex-direction: column; gap: 3px;
+    }
+    .mock-kb .main .grid .head {
+      height: 12px; background: rgba(255, 174, 66, 0.15);
+      border-radius: 2px;
+    }
+    .mock-kb .main .grid .row {
+      height: 9px; background: rgba(255,255,255,0.04);
+      border-radius: 2px;
+    }
+
+    /* ========== Mock: 한미 의담 - 어드민 ========== */
+    .shot.mock-hanmi {
+      background: #0a1f1f;
+      display: grid;
+      grid-template-rows: 32px 1fr;
+    }
+    .mock-hanmi .topbar {
+      background: #0d2828;
+      border-bottom: 1px solid rgba(100, 210, 255, 0.15);
+      display: flex; align-items: center; padding: 0 14px; gap: 16px;
+    }
+    .mock-hanmi .topbar .brand {
+      font-size: 11px; font-weight: 700; color: #64d2ff;
+    }
+    .mock-hanmi .topbar .tab {
+      font-size: 9px; color: rgba(255,255,255,0.4);
+      padding: 4px 8px; border-radius: 4px;
+    }
+    .mock-hanmi .topbar .tab.active {
+      background: rgba(100, 210, 255, 0.15); color: #64d2ff;
+    }
+    .mock-hanmi .body {
+      padding: 14px;
+      display: grid;
+      grid-template-columns: 200px 1fr;
+      gap: 12px;
+    }
+    .mock-hanmi .body .menu {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 6px;
+      padding: 8px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .mock-hanmi .body .menu .item {
+      height: 14px; border-radius: 3px;
+      background: rgba(255,255,255,0.04);
+    }
+    .mock-hanmi .body .menu .item.active {
+      background: rgba(100, 210, 255, 0.15);
+    }
+    .mock-hanmi .body .editor {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 6px;
+      padding: 10px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .mock-hanmi .body .editor .title {
+      height: 18px; background: rgba(100, 210, 255, 0.1);
+      border-radius: 3px; width: 60%;
+    }
+    .mock-hanmi .body .editor .toolbar {
+      height: 22px; background: rgba(255,255,255,0.04);
+      border-radius: 3px;
+      display: flex; align-items: center; padding: 0 6px; gap: 4px;
+    }
+    .mock-hanmi .body .editor .toolbar .btn {
+      width: 12px; height: 12px; border-radius: 2px;
+      background: rgba(255,255,255,0.1);
+    }
+    .mock-hanmi .body .editor .content {
+      flex: 1; background: #061818;
+      border-radius: 3px;
+      padding: 8px;
+      display: flex; flex-direction: column; gap: 4px;
+    }
+    .mock-hanmi .body .editor .content .line {
+      height: 6px; background: rgba(255,255,255,0.1);
+      border-radius: 1px;
+    }
+    .mock-hanmi .body .editor .content .line:nth-child(1) { width: 90%; }
+    .mock-hanmi .body .editor .content .line:nth-child(2) { width: 75%; }
+    .mock-hanmi .body .editor .content .line:nth-child(3) { width: 85%; }
+    .mock-hanmi .body .editor .content .line:nth-child(4) { width: 60%; }
+
+    /* =========================================================
+       PATTERN A — 카드 그리드 (현재 구조의 시각만 교체)
+       ========================================================= */
+    .projects-section {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+    .project-card {
+      background: linear-gradient(180deg, var(--gray-100) 0%, var(--gray-200) 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 20px;
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.4s ease, border-color 0.4s, box-shadow 0.4s;
+      display: flex; flex-direction: column;
+      position: relative;
+    }
+    .project-card:hover {
+      transform: translateY(-6px);
+      border-color: rgba(163, 230, 53, 0.25);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.45);
+    }
+    .project-card-visual {
+      aspect-ratio: 16/10;
+      position: relative;
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .project-card-visual .shot {
+      transition: transform 0.6s ease;
+    }
+    .project-card:hover .project-card-visual .shot {
+      transform: scale(1.04);
+    }
+    .project-card-visual .badge-overlay {
+      position: absolute;
+      top: 14px; left: 14px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--white);
+      padding: 5px 10px;
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 100px;
+      backdrop-filter: blur(8px);
+      background: rgba(0,0,0,0.5);
+      z-index: 5;
+    }
+    .project-card-visual .badge-overlay .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--lime);
+      box-shadow: 0 0 8px var(--lime);
+    }
+    .project-card-body {
+      padding: 22px 24px 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .project-card-title {
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: -0.6px;
+      color: var(--white);
+      transition: color 0.3s;
+    }
+    .project-card:hover .project-card-title { color: var(--lime); }
+    .project-badges {
+      display: flex; flex-wrap: wrap; gap: 6px;
+    }
+    .project-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      padding: 3px 9px;
+      border-radius: 100px;
+      letter-spacing: 0.4px;
+    }
+    .project-badge.frontend { background: rgba(41,151,255,0.15); color: var(--blue); border: 1px solid rgba(41,151,255,0.3); }
+    .project-badge.fullstack { background: rgba(191,90,242,0.15); color: var(--purple); border: 1px solid rgba(191,90,242,0.3); }
+    .project-badge.type { background: rgba(255,255,255,0.06); color: var(--gray-500); border: 1px solid rgba(255,255,255,0.1); }
+    .project-badge.period { background: transparent; color: var(--gray-500); border: 1px solid rgba(255,255,255,0.1); }
+    .project-card-tagline {
+      font-size: 14px;
+      color: var(--gray-500);
+      line-height: 1.6;
+      flex: 1;
+    }
+    .project-card-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-top: 14px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .project-card-stack {
+      display: flex; flex-wrap: wrap; gap: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--gray-500);
+    }
+    .project-card-stack .sep { color: var(--gray-400); }
+    .project-card-cta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--lime);
+      display: inline-flex; align-items: center; gap: 6px;
+      transition: gap 0.25s;
+      white-space: nowrap;
+    }
+    .project-card:hover .project-card-cta { gap: 10px; }
+
+    /* =========================================================
+       PATTERN B — 상세 모달 (이미지 갤러리 중심)
+       ========================================================= */
+    .modal-demo-wrap {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .modal-frame {
+      background: linear-gradient(180deg, #18181a 0%, #2a2a2c 100%);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 24px;
+      overflow: hidden;
+      display: grid;
+      grid-template-columns: 1.4fr 1fr;
+      min-height: 640px;
+    }
+    .modal-gallery {
+      background: #050507;
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid rgba(255,255,255,0.06);
+    }
+    .modal-gallery .main-shot {
+      flex: 1;
+      position: relative;
+      overflow: hidden;
+      min-height: 380px;
+    }
+    .modal-gallery .main-shot .meta-overlay {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 24px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.85) 0%, transparent 100%);
+      z-index: 6;
+    }
+    .modal-gallery .main-shot .meta-overlay .caption-tag {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 1px;
+      color: var(--lime);
+      padding: 3px 10px;
+      background: rgba(163, 230, 53, 0.1);
+      border: 1px solid rgba(163, 230, 53, 0.3);
+      border-radius: 100px;
+      margin-bottom: 8px;
+    }
+    .modal-gallery .main-shot .meta-overlay .caption {
+      font-size: 14px;
+      color: var(--white);
+      font-weight: 500;
+      letter-spacing: -0.3px;
+    }
+    .modal-gallery .thumb-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      padding: 12px;
+      background: #0a0a0c;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .modal-gallery .thumb {
+      aspect-ratio: 16/10;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+      border: 2px solid transparent;
+      position: relative;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+    .modal-gallery .thumb.active {
+      border-color: var(--lime);
+    }
+    .modal-gallery .thumb:hover { transform: translateY(-2px); }
+    .modal-gallery .thumb .shot::after {
+      font-size: 8px;
+      padding: 2px 6px;
+      bottom: 4px; right: 4px;
+      content: "📷";
+    }
+    .modal-content {
+      padding: 36px 36px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      overflow-y: auto;
+    }
+    .modal-content .head {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .modal-content h3 {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.8px;
+      line-height: 1.2;
+    }
+    .modal-content .tagline {
+      font-size: 14px;
+      color: var(--gray-500);
+      line-height: 1.7;
+    }
+    .modal-content .did-list {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .modal-content .did-item {
+      display: flex; gap: 12px; align-items: flex-start;
+      padding: 10px 12px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 10px;
+    }
+    .modal-content .did-check {
+      width: 18px; height: 18px; border-radius: 50%;
+      background: rgba(163, 230, 53, 0.15);
+      border: 1px solid rgba(163, 230, 53, 0.4);
+      flex-shrink: 0;
+      position: relative;
+      margin-top: 1px;
+    }
+    .modal-content .did-check::after {
+      content: "";
+      position: absolute;
+      left: 4px; top: 1px;
+      width: 4px; height: 8px;
+      border: solid var(--lime);
+      border-width: 0 1.5px 1.5px 0;
+      transform: rotate(45deg);
+    }
+    .modal-content .did-text {
+      font-size: 13px; color: var(--gray-600); line-height: 1.6;
+    }
+    .modal-content .did-text .accent {
+      color: var(--lime); font-weight: 600;
+    }
+    .modal-content .stack-row {
+      display: flex; flex-wrap: wrap; gap: 6px;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .modal-content .stack-row .lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 10px;
+      color: var(--gray-400);
+      letter-spacing: 1px;
+      margin-right: 4px;
+    }
+    .modal-content .stack-row .chip {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--gray-500);
+      padding: 4px 10px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 100px;
+    }
+
+    /* =========================================================
+       PATTERN C — 풀블리드 스포트라이트 (대표 프로젝트 1개)
+       ========================================================= */
+    .spotlight {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .spotlight-card {
+      background: linear-gradient(180deg, #18181a 0%, #0e0e10 100%);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 28px;
+      overflow: hidden;
+      padding: 0;
+    }
+    .spotlight-shot {
+      width: 100%;
+      aspect-ratio: 16/8;
+      position: relative;
+      overflow: hidden;
+    }
+    .spotlight-shot::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.95) 100%);
+      z-index: 5;
+    }
+    .spotlight-meta {
+      padding: 36px 48px 40px;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 48px;
+      align-items: start;
+    }
+    .spotlight-meta .left .tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--lime);
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+    .spotlight-meta .left h3 {
+      font-size: 36px;
+      font-weight: 700;
+      letter-spacing: -1px;
+      margin-bottom: 12px;
+    }
+    .spotlight-meta .left p {
+      font-size: 15px;
+      color: var(--gray-500);
+      line-height: 1.7;
+    }
+    .spotlight-meta .right {
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .spotlight-stat {
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 16px;
+      align-items: baseline;
+      padding: 12px 0;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+    .spotlight-stat:last-child { border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .spotlight-stat .num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--lime);
+      letter-spacing: -0.5px;
+    }
+    .spotlight-stat .desc {
+      font-size: 13px;
+      color: var(--gray-500);
+      line-height: 1.5;
+    }
+
+    /* =========================================================
+       Responsive
+       ========================================================= */
+    @media (max-width: 900px) {
+      .projects-grid { grid-template-columns: 1fr; }
+      .modal-frame { grid-template-columns: 1fr; min-height: 0; }
+      .modal-gallery .main-shot { min-height: 260px; }
+      .spotlight-meta { grid-template-columns: 1fr; gap: 24px; padding: 24px; }
+      .spotlight-meta .left h3 { font-size: 28px; }
+    }
+
+    /* Footer note */
+    .end-note {
+      max-width: 1200px;
+      margin: 100px auto 80px;
+      padding: 40px 28px;
+      border-top: 1px solid rgba(255,255,255,0.08);
+      text-align: center;
+    }
+    .end-note .label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--gray-400);
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+    .end-note p {
+      font-size: 14px;
+      color: var(--gray-500);
+      line-height: 1.8;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================================
+       시안 안내
+       ============================================================ -->
+  <div class="doc-note">
+    <div class="tag">// PROPOSAL · IMAGE-DRIVEN</div>
+    <h1>이미지를 중심에 둔 프로젝트 섹션 시안</h1>
+    <p>현재 페이지는 <strong>그라디언트 + 텍스트</strong>만으로 프로젝트를 설명해서 "내가 한 일"이라는 주장만 있고 결과물이 보이지 않습니다.</p>
+    <p>이 시안은 <strong>실제 프로젝트 스크린샷을 시각의 1차 정보로 끌어올린 3가지 패턴</strong>을 보여줍니다. 모든 <strong>📷 표시 영역</strong>은 실제 이미지(<code>&lt;img src="..."&gt;</code>)로 교체될 자리이며, 현재 mockup은 레이아웃 검증용으로 가짜 UI를 CSS로 그린 것입니다.</p>
+  </div>
+
+  <!-- ============================================================
+       PATTERN A — 카드 그리드
+       ============================================================ -->
+  <div class="section-heading">
+    <div class="label">// PATTERN A</div>
+    <h2>카드 그리드 — 진입 화면</h2>
+    <div class="desc">기존 그라디언트 placeholder를 실제 스크린샷으로 교체. 카드의 첫인상이 "주장"에서 "증거"로 바뀜.</div>
+  </div>
+
+  <section class="projects-section">
+    <div class="projects-grid">
+
+      <!-- Card 1: Envelopes -->
+      <article class="project-card">
+        <div class="project-card-visual">
+          <div class="badge-overlay"><span class="dot"></span> ★ LATEST</div>
+          <div class="shot mock-envelopes">
+            <div class="topbar">
+              <div class="logo"></div>
+              <div class="title">SAMS Admin</div>
+              <div class="breadcrumb">
+                <div class="crumb">Dashboard</div>
+                <div class="crumb">Plant 04</div>
+              </div>
+            </div>
+            <div class="sidebar">
+              <div class="item active"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+            </div>
+            <div class="main">
+              <div class="kpi"><div class="lbl">발전량</div><div class="val">2.4 MWh</div></div>
+              <div class="kpi"><div class="lbl">가동률</div><div class="val">98.2%</div></div>
+              <div class="kpi"><div class="lbl">사이트</div><div class="val">14</div></div>
+              <div class="kpi"><div class="lbl">알람</div><div class="val">3</div></div>
+              <div class="chart"></div>
+              <div class="table">
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3 class="project-card-title">Envelopes SAMS Platform</h3>
+          <div class="project-badges">
+            <span class="project-badge frontend">Frontend</span>
+            <span class="project-badge type">Enterprise</span>
+            <span class="project-badge period">2025 — 현재</span>
+          </div>
+          <p class="project-card-tagline">태양광 발전소 통합 모니터링·운영 플랫폼. 어드민 콘솔과 6개 마이크로프론트엔드를 단일 도메인에서 운영.</p>
+          <div class="project-card-meta">
+            <div class="project-card-stack">
+              <span>Next.js</span><span class="sep"> · </span>
+              <span>TypeScript</span><span class="sep"> · </span>
+              <span>Panda CSS</span>
+            </div>
+            <span class="project-card-cta">View Details →</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 2: SULEGYM -->
+      <article class="project-card">
+        <div class="project-card-visual">
+          <div class="badge-overlay"><span class="dot"></span> FULLSTACK</div>
+          <div class="shot mock-sulegym">
+            <div class="phone tertiary">
+              <div class="header"><div class="greet">설레짐</div><div class="avatar"></div></div>
+              <div class="checkin"><div class="lbl">RANK</div><div class="val">#42</div></div>
+              <div class="feed">
+                <div class="item"><div class="dot"></div><div class="bar"></div></div>
+                <div class="item"><div class="dot"></div><div class="bar"></div></div>
+              </div>
+              <div class="tabbar"><div class="tab"></div><div class="tab active"></div><div class="tab"></div><div class="tab"></div></div>
+            </div>
+            <div class="phone">
+              <div class="header"><div class="greet">CHECK-IN</div><div class="avatar"></div></div>
+              <div class="checkin"><div class="lbl">TODAY · 강남점</div><div class="val">42:18</div></div>
+              <div class="feed">
+                <div class="item"><div class="dot"></div><div class="bar"></div></div>
+                <div class="item"><div class="dot"></div><div class="bar"></div></div>
+                <div class="item"><div class="dot"></div><div class="bar"></div></div>
+              </div>
+              <div class="tabbar"><div class="tab active"></div><div class="tab"></div><div class="tab"></div><div class="tab"></div></div>
+            </div>
+            <div class="phone secondary">
+              <div class="header"><div class="greet">FEED</div><div class="avatar"></div></div>
+              <div class="checkin"><div class="lbl">MATE</div><div class="val">+ 3</div></div>
+              <div class="feed">
+                <div class="item"><div class="dot"></div><div class="bar"></div></div>
+                <div class="item"><div class="dot"></div><div class="bar"></div></div>
+              </div>
+              <div class="tabbar"><div class="tab"></div><div class="tab"></div><div class="tab active"></div><div class="tab"></div></div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3 class="project-card-title">SULEGYM (설레짐)</h3>
+          <div class="project-badges">
+            <span class="project-badge fullstack">Fullstack</span>
+            <span class="project-badge type">외주</span>
+            <span class="project-badge period">2024 — 2025</span>
+          </div>
+          <p class="project-card-tagline">헬스장 체크인·운동 기록·메이트 매칭·구독 결제 피트니스 SNS. iOS/Android 앱 + 백엔드 단독 구현.</p>
+          <div class="project-card-meta">
+            <div class="project-card-stack">
+              <span>Expo</span><span class="sep"> · </span>
+              <span>RN</span><span class="sep"> · </span>
+              <span>Node.js</span>
+            </div>
+            <span class="project-card-cta">View Details →</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 3: KB -->
+      <article class="project-card">
+        <div class="project-card-visual">
+          <div class="badge-overlay"><span class="dot"></span> ENTERPRISE</div>
+          <div class="shot mock-kb">
+            <div class="topbar">
+              <div class="brand">KB생명보험</div>
+              <div class="nav-item active">영업관리자</div>
+              <div class="nav-item">FP관리</div>
+              <div class="nav-item">실적</div>
+              <div class="nav-item">일정</div>
+            </div>
+            <div class="sidebar">
+              <div class="menu active"></div>
+              <div class="menu"></div>
+              <div class="menu"></div>
+              <div class="menu"></div>
+              <div class="menu"></div>
+              <div class="menu"></div>
+            </div>
+            <div class="main">
+              <div class="filter-row">
+                <div class="pill"></div>
+                <div class="pill"></div>
+                <div class="pill primary"></div>
+              </div>
+              <div class="grid">
+                <div class="head"></div>
+                <div class="row"></div><div class="row"></div><div class="row"></div>
+                <div class="row"></div><div class="row"></div><div class="row"></div>
+                <div class="row"></div><div class="row"></div><div class="row"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3 class="project-card-title">KB생명보험 영업관리자</h3>
+          <div class="project-badges">
+            <span class="project-badge frontend">Frontend</span>
+            <span class="project-badge type">Enterprise</span>
+            <span class="project-badge period">2022.07 — 2022.10</span>
+          </div>
+          <p class="project-card-tagline">영업관리자(GA)·재무설계사(FP)·지점 통합정보조회 시스템. 6개+ 도메인 / 30개+ 라우트 SPA 구축.</p>
+          <div class="project-card-meta">
+            <div class="project-card-stack">
+              <span>React 18</span><span class="sep"> · </span>
+              <span>Redux</span><span class="sep"> · </span>
+              <span>MUI v5</span>
+            </div>
+            <span class="project-card-cta">View Details →</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Card 4: 한미 -->
+      <article class="project-card">
+        <div class="project-card-visual">
+          <div class="badge-overlay"><span class="dot"></span> ENTERPRISE</div>
+          <div class="shot mock-hanmi">
+            <div class="topbar">
+              <div class="brand">의담 ADMIN</div>
+              <div class="tab active">세미나</div>
+              <div class="tab">교육</div>
+              <div class="tab">회원</div>
+              <div class="tab">배너</div>
+              <div class="tab">이벤트</div>
+            </div>
+            <div class="body">
+              <div class="menu">
+                <div class="item active"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+                <div class="item"></div>
+              </div>
+              <div class="editor">
+                <div class="title"></div>
+                <div class="toolbar">
+                  <div class="btn"></div><div class="btn"></div><div class="btn"></div>
+                  <div class="btn"></div><div class="btn"></div><div class="btn"></div>
+                </div>
+                <div class="content">
+                  <div class="line"></div>
+                  <div class="line"></div>
+                  <div class="line"></div>
+                  <div class="line"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="project-card-body">
+          <h3 class="project-card-title">한미약품 의담 Admin</h3>
+          <div class="project-badges">
+            <span class="project-badge frontend">Frontend</span>
+            <span class="project-badge type">Enterprise</span>
+            <span class="project-badge period">2023 — 2024</span>
+          </div>
+          <p class="project-card-tagline">의료진 대상 세미나·교육·회원·배너·이벤트 운영을 통합한 8개 독립 도메인 어드민 SPA.</p>
+          <div class="project-card-meta">
+            <div class="project-card-stack">
+              <span>React 18</span><span class="sep"> · </span>
+              <span>Redux</span><span class="sep"> · </span>
+              <span>MUI</span>
+            </div>
+            <span class="project-card-cta">View Details →</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PATTERN B — 상세 모달 (이미지 갤러리 + 본문)
+       ============================================================ -->
+  <div class="section-heading">
+    <div class="label">// PATTERN B</div>
+    <h2>상세 모달 — 좌우 분할 갤러리</h2>
+    <div class="desc">카드 클릭 시 열리는 모달. 왼쪽 — 메인 스크린샷 + 4종 썸네일(메뉴/리스트/상세/모바일 뷰), 오른쪽 — 텍스트 본문. 클릭하는 썸네일에 따라 메인 이미지가 전환됨.</div>
+  </div>
+
+  <section class="modal-demo-wrap">
+    <div class="modal-frame">
+      <div class="modal-gallery">
+        <div class="main-shot">
+          <div class="shot mock-envelopes">
+            <div class="topbar">
+              <div class="logo"></div>
+              <div class="title">SAMS Admin · Plant Detail</div>
+              <div class="breadcrumb">
+                <div class="crumb">Plants</div>
+                <div class="crumb">Plant 04</div>
+                <div class="crumb">Realtime</div>
+              </div>
+            </div>
+            <div class="sidebar">
+              <div class="item"></div>
+              <div class="item active"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+              <div class="item"></div>
+            </div>
+            <div class="main">
+              <div class="kpi"><div class="lbl">발전량</div><div class="val">2.4 MWh</div></div>
+              <div class="kpi"><div class="lbl">가동률</div><div class="val">98.2%</div></div>
+              <div class="kpi"><div class="lbl">사이트</div><div class="val">14</div></div>
+              <div class="kpi"><div class="lbl">알람</div><div class="val">3</div></div>
+              <div class="chart"></div>
+              <div class="table">
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+                <div class="row"></div>
+              </div>
+            </div>
+          </div>
+          <div class="meta-overlay">
+            <div class="caption-tag">SCREEN 01 / 04</div>
+            <div class="caption">통합 어드민 대시보드 — 14개 발전소 실시간 메트릭 모니터링</div>
+          </div>
+        </div>
+        <div class="thumb-row">
+          <div class="thumb active">
+            <div class="shot mock-envelopes" style="transform: scale(0.9);"></div>
+          </div>
+          <div class="thumb">
+            <div class="shot mock-kb"></div>
+          </div>
+          <div class="thumb">
+            <div class="shot mock-hanmi"></div>
+          </div>
+          <div class="thumb">
+            <div class="shot mock-sulegym"></div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-content">
+        <div class="head">
+          <span style="font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--lime); letter-spacing: 1.5px;">// ★ LATEST · ENTERPRISE</span>
+          <h3>Envelopes SAMS Platform</h3>
+          <div class="project-badges">
+            <span class="project-badge frontend">Frontend</span>
+            <span class="project-badge type">Enterprise</span>
+            <span class="project-badge period">2025 — 현재</span>
+          </div>
+          <p class="tagline">
+            태양광 발전소 통합 모니터링·운영 플랫폼.<br/>
+            어드민 콘솔과 사용자 사이트를 하나의 도메인에서 운영하는 마이크로프론트엔드.
+          </p>
+        </div>
+        <div class="did-list">
+          <div class="did-item">
+            <div class="did-check"></div>
+            <div class="did-text"><span class="accent">14개+ 운영 도메인</span>을 단일 어드민으로 통합</div>
+          </div>
+          <div class="did-item">
+            <div class="did-check"></div>
+            <div class="did-text"><span class="accent">6개 서비스</span>를 마이크로프론트엔드로 분리해 독립 배포</div>
+          </div>
+          <div class="did-item">
+            <div class="did-check"></div>
+            <div class="did-text">디자인 시스템·국제화·인증 레이어를 공통 기반으로 정리</div>
+          </div>
+          <div class="did-item">
+            <div class="did-check"></div>
+            <div class="did-text">백엔드 미가용 상태에서도 풀스택 시뮬레이션 가능한 Mock 환경 구축</div>
+          </div>
+        </div>
+        <div class="stack-row">
+          <span class="lbl">STACK</span>
+          <span class="chip">Next.js 14</span>
+          <span class="chip">React 18</span>
+          <span class="chip">TypeScript</span>
+          <span class="chip">Panda CSS</span>
+          <span class="chip">TanStack Query</span>
+          <span class="chip">Redux Toolkit</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       PATTERN C — 풀블리드 스포트라이트 (대표 1개)
+       ============================================================ -->
+  <div class="section-heading">
+    <div class="label">// PATTERN C</div>
+    <h2>스포트라이트 — 대표 프로젝트 헤드라인</h2>
+    <div class="desc">Featured Projects 섹션 최상단에 1개를 풀블리드로 배치. "Hero shot" 한 컷이 가장 임팩트가 큼. 선택사항(원하지 않으면 생략 가능).</div>
+  </div>
+
+  <section class="spotlight">
+    <div class="spotlight-card">
+      <div class="spotlight-shot">
+        <div class="shot mock-envelopes">
+          <div class="topbar">
+            <div class="logo"></div>
+            <div class="title">SAMS · Envelopes</div>
+            <div class="breadcrumb">
+              <div class="crumb">Overview</div>
+              <div class="crumb">All Plants</div>
+              <div class="crumb">Live</div>
+            </div>
+          </div>
+          <div class="sidebar">
+            <div class="item active"></div>
+            <div class="item"></div><div class="item"></div>
+            <div class="item"></div><div class="item"></div>
+            <div class="item"></div>
+          </div>
+          <div class="main">
+            <div class="kpi"><div class="lbl">총 발전량</div><div class="val">428 MWh</div></div>
+            <div class="kpi"><div class="lbl">평균 가동률</div><div class="val">97.4%</div></div>
+            <div class="kpi"><div class="lbl">총 사이트</div><div class="val">14</div></div>
+            <div class="kpi"><div class="lbl">실시간 알람</div><div class="val">3</div></div>
+            <div class="chart"></div>
+            <div class="table">
+              <div class="row"></div><div class="row"></div>
+              <div class="row"></div><div class="row"></div>
+              <div class="row"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="spotlight-meta">
+        <div class="left">
+          <div class="tag">// CURRENTLY BUILDING</div>
+          <h3>Envelopes SAMS Platform</h3>
+          <p>14개 운영 도메인을 단일 어드민으로 묶고, 6개 서비스를 마이크로프론트엔드로 분리해 독립 배포한다. 디자인 시스템·국제화·인증 레이어를 공통 기반으로 정리해, 새 사이트가 추가될 때 도메인 코드만 작성하면 되도록 만들었다.</p>
+        </div>
+        <div class="right">
+          <div class="spotlight-stat">
+            <div class="num">14+</div>
+            <div class="desc">단일 어드민으로<br/>통합한 운영 도메인 수</div>
+          </div>
+          <div class="spotlight-stat">
+            <div class="num">6</div>
+            <div class="desc">독립 배포되는<br/>마이크로프론트엔드 서비스</div>
+          </div>
+          <div class="spotlight-stat">
+            <div class="num">100%</div>
+            <div class="desc">백엔드 미가용 상태에서도<br/>풀스택 시뮬레이션 가능한 Mock 커버리지</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       Footer note
+       ============================================================ -->
+  <div class="end-note">
+    <div class="label">// IMPLEMENTATION NOTE</div>
+    <p>
+      실제 구현 시 <code>📷</code> 표시된 모든 자리는 <code>&lt;img src="/projects/envelopes-01.webp" /&gt;</code> 형태로 교체됩니다.<br/>
+      이미지 권장 사양 — 카드: 1600×1000 / 모달 메인: 2400×1500 / 썸네일: 800×500 / 스포트라이트: 2800×1400 (모두 WebP).<br/>
+      프로젝트당 최소 1장(카드 대표) — 권장 4장(메인 화면, 핵심 기능, 데이터 화면, 모바일 뷰).
+    </p>
+  </div>
+
+</body>
+</html>
