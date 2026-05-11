@@ -8,20 +8,12 @@ export type DidItem = {
   rest: string;
 };
 
-export type ProjectImage = {
-  src: string;
-  caption: string;
-};
-
 export type Featured = {
   id: "envelopes" | "sulegym" | "kb" | "hanmi";
   bgClass: "envelopes" | "sulegym" | "kb" | "hanmi";
   visualTag: string;
   visualTitle: string;
   visualSubtitle: string;
-
-  // images: 첫 번째 항목이 카드 커버. 모달에서는 갤러리로 펼쳐짐.
-  images: ProjectImage[];
 
   // card
   cardTitle: string;
@@ -44,13 +36,6 @@ export const featured: Featured[] = [
     visualTag: "★ LATEST",
     visualTitle: "Envelopes",
     visualSubtitle: "SAMS · 태양광 모니터링",
-
-    images: [
-      { src: "/projects/envelopes-01.webp", caption: "통합 어드민 — 14개 발전소 실시간 메트릭" },
-      { src: "/projects/envelopes-02.webp", caption: "발전소 상세 — 시계열 차트와 가동률 모니터링" },
-      { src: "/projects/envelopes-03.webp", caption: "마이크로프론트엔드 — 도메인별 독립 사이트 진입" },
-      { src: "/projects/envelopes-04.webp", caption: "Mock 환경 — 백엔드 미가용 시 풀스택 시뮬레이션" },
-    ],
 
     cardTitle: "Envelopes SAMS Platform",
     cardBadges: [
@@ -87,13 +72,6 @@ export const featured: Featured[] = [
     visualTag: "FULLSTACK",
     visualTitle: "SULEGYM",
     visualSubtitle: "피트니스 SNS · 운동 트래킹",
-
-    images: [
-      { src: "/projects/sulegym-01.webp", caption: "메인 피드 — 운동 기록과 메이트 활동" },
-      { src: "/projects/sulegym-02.webp", caption: "헬스장 체크인 — 위치 기반 자동 인식" },
-      { src: "/projects/sulegym-03.webp", caption: "시즌 랭킹 — 누적 운동 시간 기반 순위" },
-      { src: "/projects/sulegym-04.webp", caption: "구독 결제 — 인앱 결제 플로우" },
-    ],
 
     cardTitle: "SULEGYM (설레짐)",
     cardBadges: [
@@ -135,13 +113,6 @@ export const featured: Featured[] = [
     visualTitle: "KB Life",
     visualSubtitle: "영업관리자 시스템",
 
-    images: [
-      { src: "/projects/kb-01.webp", caption: "통합정보조회 메인 — 영업관리자 대시보드" },
-      { src: "/projects/kb-02.webp", caption: "실적 차트 — Nivo 기반 매출·계약 분석" },
-      { src: "/projects/kb-03.webp", caption: "일정관리 — FullCalendar 기반 영업 일정" },
-      { src: "/projects/kb-04.webp", caption: "공통 컴포넌트 — 24개+ 디자인 시스템" },
-    ],
-
     cardTitle: "KB생명보험 영업관리자",
     cardBadges: [
       { kind: "frontend", label: "Frontend" },
@@ -182,13 +153,6 @@ export const featured: Featured[] = [
     visualTag: "ENTERPRISE",
     visualTitle: "의담",
     visualSubtitle: "한미약품 · UIDAM Admin",
-
-    images: [
-      { src: "/projects/hanmi-01.webp", caption: "세미나 관리 — 의료진 대상 행사 운영" },
-      { src: "/projects/hanmi-02.webp", caption: "콘텐츠 에디터 — CKEditor 5 기반 리치 에디터" },
-      { src: "/projects/hanmi-03.webp", caption: "회원 관리 — 의료진 인증과 권한 분기" },
-      { src: "/projects/hanmi-04.webp", caption: "배너·이벤트 — 8개 도메인 통합 어드민" },
-    ],
 
     cardTitle: "한미약품 의담 Admin",
     cardBadges: [
