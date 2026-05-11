@@ -737,23 +737,389 @@ section { position: relative; overflow: hidden; }
   border-radius: 20px;
 }
 .project-card-visual {
-  aspect-ratio: 16/9;
+  aspect-ratio: 16/10;
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid rgba(var(--ink-rgb),0.06);
+}
+.project-card-visual .project-visual-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.project-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  display: block;
+  transition: transform 0.6s ease, opacity 0.3s;
+  background: transparent;
+}
+.project-shot.project-shot-failed {
+  opacity: 0;
+  visibility: hidden;
+}
+.project-card:hover .project-card-visual .project-shot {
+  transform: scale(1.04);
+}
+.project-card-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  z-index: 5;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-jbm), monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--white);
+  padding: 5px 10px;
+  border: 1px solid rgba(var(--ink-rgb),0.18);
+  border-radius: 100px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.5);
+}
+.project-card-badge .dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+}
+
+/* ===== CSS-rendered project mockups (placeholder until real screenshots) ===== */
+/* 의도적으로 다크 컬러 그대로 유지 — 프로젝트 정체성 표현 + 이미지 뷰어 프레임 느낌 */
+.shot-mock {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* ---------- Envelopes — SAMS 어드민 대시보드 ---------- */
+.shot-mock.envelopes {
+  background: #0c1426;
+  display: grid;
+  grid-template-columns: 56px 1fr;
+  grid-template-rows: 36px 1fr;
+}
+.shot-mock.envelopes .topbar {
+  grid-column: 1 / -1;
+  background: #0a1020;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  gap: 8px;
+}
+.shot-mock.envelopes .topbar .logo {
+  width: 14px; height: 14px; border-radius: 4px;
+  background: linear-gradient(135deg, #2997ff, #64d2ff);
+}
+.shot-mock.envelopes .topbar .title {
+  font-size: 11px; color: #8da4cf; font-weight: 600;
+}
+.shot-mock.envelopes .topbar .breadcrumb {
+  flex: 1; display: flex; gap: 6px; align-items: center;
+}
+.shot-mock.envelopes .topbar .crumb {
+  font-size: 10px; color: rgba(255,255,255,0.4);
+  padding: 2px 8px; border-radius: 4px;
+  background: rgba(41, 151, 255, 0.08);
+}
+.shot-mock.envelopes .sidebar {
+  background: #0a1020;
+  border-right: 1px solid rgba(255,255,255,0.06);
+  padding: 12px 0;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.shot-mock.envelopes .sidebar .item {
+  width: 28px; height: 28px; border-radius: 8px;
+  background: rgba(255,255,255,0.04);
+}
+.shot-mock.envelopes .sidebar .item.active {
+  background: rgba(41, 151, 255, 0.25);
+  border: 1px solid rgba(41, 151, 255, 0.4);
+}
+.shot-mock.envelopes .main {
+  padding: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: 56px 1fr 1fr;
+  gap: 10px;
+}
+.shot-mock.envelopes .kpi {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.shot-mock.envelopes .kpi .lbl { font-size: 9px; color: rgba(255,255,255,0.5); }
+.shot-mock.envelopes .kpi .val { font-size: 14px; font-weight: 700; color: #64d2ff; }
+.shot-mock.envelopes .chart {
+  grid-column: span 2;
+  grid-row: span 2;
+  background: rgba(41, 151, 255, 0.05);
+  border: 1px solid rgba(41, 151, 255, 0.15);
+  border-radius: 8px;
   position: relative;
   overflow: hidden;
 }
-.project-card-visual .project-visual-bg { width: 100%; height: 100%; position: relative; }
-.project-card-visual .project-visual-content { padding: 16px; }
-.project-card-visual .project-visual-title {
-  font-size: clamp(28px, 4vw, 44px);
-  letter-spacing: -1.5px;
-  margin-bottom: 8px;
+.shot-mock.envelopes .chart::before {
+  content: "";
+  position: absolute;
+  bottom: 20%; left: 8%; right: 8%; height: 60%;
+  background: linear-gradient(180deg, rgba(41, 151, 255, 0.4) 0%, transparent 100%);
+  clip-path: polygon(0 80%, 8% 65%, 16% 70%, 25% 50%, 35% 55%, 45% 35%, 55% 45%, 65% 25%, 75% 38%, 85% 20%, 100% 30%, 100% 100%, 0 100%);
 }
-.project-card-visual .project-visual-subtitle { font-size: 13px; }
-.project-card-visual .project-visual-tag {
-  font-size: 10px;
-  margin-bottom: 10px;
-  padding: 3px 10px;
+.shot-mock.envelopes .chart::after {
+  content: "발전량 추이 (MWh)";
+  position: absolute; top: 10px; left: 12px;
+  font-size: 10px; color: #64d2ff; font-weight: 600;
 }
+.shot-mock.envelopes .table {
+  grid-column: span 2;
+  grid-row: span 2;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.shot-mock.envelopes .table .row {
+  height: 14px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 3px;
+}
+.shot-mock.envelopes .table .row:first-child { background: rgba(41, 151, 255, 0.2); }
+
+/* ---------- SULEGYM — 모바일 앱 ---------- */
+.shot-mock.sulegym {
+  background: radial-gradient(ellipse at 30% 30%, #1a4a32 0%, #0a2818 60%, #061f12 100%);
+  display: flex; align-items: center; justify-content: center;
+  gap: 16px;
+  padding: 20px;
+}
+.shot-mock.sulegym .phone {
+  width: 28%;
+  max-width: 140px;
+  aspect-ratio: 9/19;
+  background: #0a0e0a;
+  border-radius: 18px;
+  border: 2px solid #1a1f1a;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  position: relative;
+  overflow: hidden;
+  padding: 8px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.shot-mock.sulegym .phone::before {
+  content: "";
+  position: absolute; top: 6px; left: 50%; transform: translateX(-50%);
+  width: 36px; height: 4px;
+  background: #000; border-radius: 4px;
+}
+.shot-mock.sulegym .phone .header {
+  margin-top: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.shot-mock.sulegym .phone .header .greet { font-size: 8px; color: #a3e635; font-weight: 600; }
+.shot-mock.sulegym .phone .header .avatar {
+  width: 14px; height: 14px; border-radius: 50%;
+  background: linear-gradient(135deg, #a3e635, #64d2ff);
+}
+.shot-mock.sulegym .phone .checkin {
+  background: linear-gradient(135deg, #1a4a32, #0d2818);
+  border: 1px solid rgba(163, 230, 53, 0.3);
+  border-radius: 6px;
+  padding: 8px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.shot-mock.sulegym .phone .checkin .lbl { font-size: 7px; color: #a3e635; }
+.shot-mock.sulegym .phone .checkin .val { font-size: 11px; font-weight: 700; color: #fff; }
+.shot-mock.sulegym .phone .feed {
+  flex: 1;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.shot-mock.sulegym .phone .feed .item {
+  flex: 1;
+  background: rgba(255,255,255,0.05);
+  border-radius: 4px;
+  display: flex; align-items: center; padding: 4px;
+  gap: 4px;
+}
+.shot-mock.sulegym .phone .feed .item .dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: #a3e635;
+}
+.shot-mock.sulegym .phone .feed .item .bar {
+  flex: 1; height: 3px; background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+.shot-mock.sulegym .phone .tabbar {
+  height: 18px;
+  background: rgba(0,0,0,0.4);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: space-around;
+}
+.shot-mock.sulegym .phone .tabbar .tab {
+  width: 8px; height: 8px; border-radius: 2px;
+  background: rgba(255,255,255,0.15);
+}
+.shot-mock.sulegym .phone .tabbar .tab.active { background: #a3e635; }
+.shot-mock.sulegym .phone.secondary { transform: translateY(20px); opacity: 0.7; }
+.shot-mock.sulegym .phone.tertiary { transform: translateY(-12px); opacity: 0.5; }
+
+/* ---------- KB Life — 영업관리자 대시보드 ---------- */
+.shot-mock.kb {
+  background: #1a0d0a;
+  display: grid;
+  grid-template-columns: 100px 1fr;
+  grid-template-rows: 30px 1fr;
+}
+.shot-mock.kb .topbar {
+  grid-column: 1 / -1;
+  background: #2a1610;
+  display: flex; align-items: center; padding: 0 12px; gap: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.shot-mock.kb .topbar .brand {
+  font-size: 11px; font-weight: 800; color: #ffae42;
+  letter-spacing: -0.5px;
+}
+.shot-mock.kb .topbar .nav-item {
+  font-size: 9px; color: rgba(255,255,255,0.5);
+  padding: 2px 6px;
+}
+.shot-mock.kb .topbar .nav-item.active { color: #ffae42; }
+.shot-mock.kb .sidebar {
+  background: #1f0f0a; padding: 10px 8px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.shot-mock.kb .sidebar .menu {
+  height: 16px; border-radius: 3px;
+  background: rgba(255,255,255,0.04);
+}
+.shot-mock.kb .sidebar .menu.active {
+  background: rgba(255, 174, 66, 0.15);
+  border-left: 2px solid #ffae42;
+}
+.shot-mock.kb .main {
+  padding: 12px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+.shot-mock.kb .main .filter-row {
+  display: flex; gap: 6px;
+}
+.shot-mock.kb .main .filter-row .pill {
+  height: 18px; flex: 1;
+  background: rgba(255,255,255,0.04);
+  border-radius: 4px;
+}
+.shot-mock.kb .main .filter-row .pill.primary {
+  background: rgba(255, 174, 66, 0.2); flex: 0.5;
+}
+.shot-mock.kb .main .grid {
+  flex: 1;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 4px;
+  padding: 6px;
+  display: flex; flex-direction: column; gap: 3px;
+}
+.shot-mock.kb .main .grid .head {
+  height: 12px; background: rgba(255, 174, 66, 0.15);
+  border-radius: 2px;
+}
+.shot-mock.kb .main .grid .row {
+  height: 9px; background: rgba(255,255,255,0.04);
+  border-radius: 2px;
+}
+
+/* ---------- 한미 의담 — 어드민 ---------- */
+.shot-mock.hanmi {
+  background: #0a1f1f;
+  display: grid;
+  grid-template-rows: 32px 1fr;
+}
+.shot-mock.hanmi .topbar {
+  background: #0d2828;
+  border-bottom: 1px solid rgba(100, 210, 255, 0.15);
+  display: flex; align-items: center; padding: 0 14px; gap: 16px;
+}
+.shot-mock.hanmi .topbar .brand {
+  font-size: 11px; font-weight: 700; color: #64d2ff;
+}
+.shot-mock.hanmi .topbar .tab {
+  font-size: 9px; color: rgba(255,255,255,0.4);
+  padding: 4px 8px; border-radius: 4px;
+}
+.shot-mock.hanmi .topbar .tab.active {
+  background: rgba(100, 210, 255, 0.15); color: #64d2ff;
+}
+.shot-mock.hanmi .body {
+  padding: 14px;
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  gap: 12px;
+}
+.shot-mock.hanmi .body .menu {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 8px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.shot-mock.hanmi .body .menu .item {
+  height: 14px; border-radius: 3px;
+  background: rgba(255,255,255,0.04);
+}
+.shot-mock.hanmi .body .menu .item.active {
+  background: rgba(100, 210, 255, 0.15);
+}
+.shot-mock.hanmi .body .editor {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 6px;
+  padding: 10px;
+  display: flex; flex-direction: column; gap: 6px;
+}
+.shot-mock.hanmi .body .editor .title {
+  height: 18px; background: rgba(100, 210, 255, 0.1);
+  border-radius: 3px; width: 60%;
+}
+.shot-mock.hanmi .body .editor .toolbar {
+  height: 22px; background: rgba(255,255,255,0.04);
+  border-radius: 3px;
+  display: flex; align-items: center; padding: 0 6px; gap: 4px;
+}
+.shot-mock.hanmi .body .editor .toolbar .btn {
+  width: 12px; height: 12px; border-radius: 2px;
+  background: rgba(255,255,255,0.1);
+}
+.shot-mock.hanmi .body .editor .content {
+  flex: 1; background: #061818;
+  border-radius: 3px;
+  padding: 8px;
+  display: flex; flex-direction: column; gap: 4px;
+}
+.shot-mock.hanmi .body .editor .content .line {
+  height: 6px; background: rgba(255,255,255,0.1);
+  border-radius: 1px;
+}
+.shot-mock.hanmi .body .editor .content .line:nth-child(1) { width: 90%; }
+.shot-mock.hanmi .body .editor .content .line:nth-child(2) { width: 75%; }
+.shot-mock.hanmi .body .editor .content .line:nth-child(3) { width: 85%; }
+.shot-mock.hanmi .body .editor .content .line:nth-child(4) { width: 60%; }
 .project-card-body {
   padding: 24px 26px 22px;
   flex: 1;
@@ -899,6 +1265,140 @@ section { position: relative; overflow: hidden; }
   gap: 32px;
 }
 
+/* === modal · gallery layout === */
+.modal.modal-gallery {
+  max-width: 1240px;
+  display: grid;
+  grid-template-columns: 1.35fr 1fr;
+  overflow: hidden;
+  padding: 0;
+}
+.modal.modal-gallery .modal-body {
+  overflow-y: auto;
+  padding: 40px 44px 44px;
+  gap: 24px;
+}
+.modal-shots {
+  background: #050507;
+  border-right: 1px solid rgba(var(--ink-rgb),0.06);
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+.modal-shot-main {
+  position: relative;
+  flex: 1;
+  overflow: hidden;
+  min-height: 380px;
+}
+.modal-shot-main .project-visual-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.modal-shot-main .project-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+  animation: shotFade 0.35s ease;
+}
+@keyframes shotFade {
+  from { opacity: 0; transform: scale(1.02); }
+  to { opacity: 1; transform: scale(1); }
+}
+.modal-shot-meta {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 28px 28px 24px;
+  background: linear-gradient(0deg, rgba(0,0,0,0.92) 0%, rgba(0,0,0,0.55) 60%, transparent 100%);
+  z-index: 4;
+}
+.modal-shot-counter {
+  display: inline-block;
+  font-family: var(--font-jbm), monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  color: var(--lime);
+  padding: 3px 10px;
+  background: rgba(163, 230, 53, 0.10);
+  border: 1px solid rgba(163, 230, 53, 0.35);
+  border-radius: 100px;
+  margin-bottom: 10px;
+}
+.modal-shot-caption {
+  font-size: 14px;
+  color: var(--white);
+  font-weight: 500;
+  letter-spacing: -0.2px;
+  line-height: 1.5;
+}
+.modal-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 6px;
+  padding: 12px;
+  background: #0a0a0c;
+  border-top: 1px solid rgba(var(--ink-rgb),0.04);
+}
+.modal-thumb {
+  aspect-ratio: 16/10;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  border: 2px solid transparent;
+  background: transparent;
+  padding: 0;
+  position: relative;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.modal-thumb:hover { transform: translateY(-2px); }
+.modal-thumb.active { border-color: var(--lime); }
+.modal-thumb:focus-visible {
+  outline: 2px solid var(--lime);
+  outline-offset: 2px;
+}
+.modal-thumb .project-visual-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.modal-thumb .project-shot {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 2;
+}
+.modal-eyebrow {
+  font-family: var(--font-jbm), monospace;
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  color: var(--lime);
+  margin-bottom: 12px;
+}
+.modal.modal-gallery .project-title-row h3 {
+  font-size: clamp(24px, 3vw, 30px);
+}
+.modal.modal-gallery .project-tagline {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--gray-500);
+}
+.modal.modal-gallery .did-item {
+  padding: 12px 0;
+}
+.modal.modal-gallery .did-text {
+  font-size: 14px;
+  line-height: 1.55;
+}
 .modal::-webkit-scrollbar { width: 8px; }
 .modal::-webkit-scrollbar-track { background: transparent; }
 .modal::-webkit-scrollbar-thumb { background: rgba(var(--ink-rgb),0.1); border-radius: 8px; }
@@ -1439,6 +1939,22 @@ footer .blink {
   .nav-links { display: none; }
   .modal-body { padding: 28px 24px 32px; }
   .modal-visual { aspect-ratio: 16/9; }
+  .modal.modal-gallery {
+    grid-template-columns: 1fr;
+    overflow-y: auto;
+  }
+  .modal.modal-gallery .modal-shots {
+    border-right: none;
+    border-bottom: 1px solid rgba(var(--ink-rgb),0.06);
+  }
+  .modal.modal-gallery .modal-shot-main {
+    min-height: 0;
+    aspect-ratio: 16/10;
+  }
+  .modal.modal-gallery .modal-body {
+    overflow-y: visible;
+    padding: 28px 24px 32px;
+  }
 }
 
 @media (max-width: 600px) {

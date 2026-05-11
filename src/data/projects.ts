@@ -8,12 +8,20 @@ export type DidItem = {
   rest: string;
 };
 
+export type ProjectImage = {
+  src: string;
+  caption: string;
+};
+
 export type Featured = {
   id: "envelopes" | "sulegym" | "kb" | "hanmi";
   bgClass: "envelopes" | "sulegym" | "kb" | "hanmi";
   visualTag: string;
   visualTitle: string;
   visualSubtitle: string;
+
+  // images: 첫 번째 항목이 카드 커버. 모달에서는 갤러리로 펼쳐짐.
+  images: ProjectImage[];
 
   // card
   cardTitle: string;
@@ -36,6 +44,8 @@ export const featured: Featured[] = [
     visualTag: "★ LATEST",
     visualTitle: "Envelopes",
     visualSubtitle: "SAMS · 태양광 모니터링",
+
+    images: [],
 
     cardTitle: "Envelopes SAMS Platform",
     cardBadges: [
@@ -72,6 +82,8 @@ export const featured: Featured[] = [
     visualTag: "FULLSTACK",
     visualTitle: "SULEGYM",
     visualSubtitle: "피트니스 SNS · 운동 트래킹",
+
+    images: [],
 
     cardTitle: "SULEGYM (설레짐)",
     cardBadges: [
@@ -113,6 +125,8 @@ export const featured: Featured[] = [
     visualTitle: "KB Life",
     visualSubtitle: "영업관리자 시스템",
 
+    images: [],
+
     cardTitle: "KB생명보험 영업관리자",
     cardBadges: [
       { kind: "frontend", label: "Frontend" },
@@ -153,6 +167,8 @@ export const featured: Featured[] = [
     visualTag: "ENTERPRISE",
     visualTitle: "의담",
     visualSubtitle: "한미약품 · UIDAM Admin",
+
+    images: [],
 
     cardTitle: "한미약품 의담 Admin",
     cardBadges: [
