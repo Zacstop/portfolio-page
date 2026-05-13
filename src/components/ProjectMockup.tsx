@@ -1,7 +1,14 @@
 // 실제 스크린샷이 들어오기 전까지 보여줄 CSS-rendered placeholder mockup.
 // projects.ts의 images 배열에 실제 src를 채우면 자동으로 <img>가 위에 덮어쓰는 구조.
 
-type Kind = "envelopes" | "sulegym" | "kb" | "hanmi";
+type Kind =
+  | "union"
+  | "envelopes"
+  | "sulegym"
+  | "kb"
+  | "hanmi"
+  | "hackle"
+  | "dominate";
 
 function EnvelopesMock() {
   return (
@@ -194,8 +201,135 @@ function HanmiMock() {
   );
 }
 
+function HackleMock() {
+  return (
+    <div className="shot-mock hackle" aria-hidden>
+      <div className="topbar">
+        <div className="brand">Hackle</div>
+        <div className="nav-item active">Experiments</div>
+        <div className="nav-item">Flags</div>
+        <div className="nav-item">Funnels</div>
+        <div className="nav-item">Events</div>
+      </div>
+      <div className="sidebar">
+        <div className="menu active" />
+        <div className="menu" />
+        <div className="menu" />
+        <div className="menu" />
+        <div className="menu" />
+      </div>
+      <div className="main">
+        <div className="kpi">
+          <div className="lbl">Variant A</div>
+          <div className="val up">+12.4%</div>
+        </div>
+        <div className="kpi">
+          <div className="lbl">Variant B</div>
+          <div className="val">8.1%</div>
+        </div>
+        <div className="kpi">
+          <div className="lbl">Sample</div>
+          <div className="val">24,128</div>
+        </div>
+        <div className="chart">
+          <div className="line line-a" />
+          <div className="line line-b" />
+        </div>
+        <div className="funnel">
+          <div className="step" />
+          <div className="step" />
+          <div className="step" />
+          <div className="step" />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function DominateMock() {
+  return (
+    <div className="shot-mock dominate" aria-hidden>
+      <div className="hero">
+        <div className="eyebrow">DOMINATE · STUDIO</div>
+        <div className="title-1" />
+        <div className="title-2" />
+        <div className="cta" />
+      </div>
+      <div className="cube">
+        <div className="face f1" />
+        <div className="face f2" />
+        <div className="face f3" />
+      </div>
+      <div className="grid">
+        <div className="card" />
+        <div className="card" />
+        <div className="card" />
+      </div>
+    </div>
+  );
+}
+
+function UnionMock() {
+  return (
+    <div className="shot-mock union" aria-hidden>
+      <div className="phone">
+        <div className="status" />
+        <div className="brand">UNION</div>
+        <div className="search" />
+        <div className="cat-row">
+          <div className="cat active" />
+          <div className="cat" />
+          <div className="cat" />
+          <div className="cat" />
+        </div>
+        <div className="menu">
+          <div className="card">
+            <div className="thumb" />
+            <div className="lines">
+              <div className="ln" /><div className="ln short" />
+            </div>
+          </div>
+          <div className="card">
+            <div className="thumb" />
+            <div className="lines">
+              <div className="ln" /><div className="ln short" />
+            </div>
+          </div>
+        </div>
+        <div className="cta" />
+      </div>
+      <div className="kds">
+        <div className="kds-bar">
+          <div className="kds-title">KDS · 매장 주문</div>
+          <div className="kds-time">12:42</div>
+        </div>
+        <div className="kds-grid">
+          <div className="ticket new">
+            <div className="head" />
+            <div className="row" /><div className="row" /><div className="row" />
+          </div>
+          <div className="ticket">
+            <div className="head" />
+            <div className="row" /><div className="row" />
+          </div>
+          <div className="ticket ready">
+            <div className="head" />
+            <div className="row" /><div className="row" /><div className="row" />
+          </div>
+          <div className="ticket">
+            <div className="head" />
+            <div className="row" /><div className="row" />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function ProjectMockup({ kind }: { kind: Kind }) {
   switch (kind) {
+    case "union":
+      return <UnionMock />;
     case "envelopes":
       return <EnvelopesMock />;
     case "sulegym":
@@ -204,5 +338,9 @@ export default function ProjectMockup({ kind }: { kind: Kind }) {
       return <KbMock />;
     case "hanmi":
       return <HanmiMock />;
+    case "hackle":
+      return <HackleMock />;
+    case "dominate":
+      return <DominateMock />;
   }
 }

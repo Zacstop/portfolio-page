@@ -5,7 +5,14 @@ export default function Hero() {
   return (
     <section className="hero">
       <div className="hero-profile">
-        <div className="hero-profile-inner">{profile.initials}</div>
+        <div className="hero-profile-inner">
+          <img
+            src={profile.avatar}
+            alt={`${profile.name} 프로필 사진`}
+            className="hero-profile-img"
+            decoding="async"
+          />
+        </div>
       </div>
       <div className="hero-status">
         <span className="dot" />

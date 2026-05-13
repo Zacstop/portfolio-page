@@ -28,6 +28,30 @@ function ShotImage({
   );
 }
 
+function PhoneStack({
+  images,
+  alt,
+}: {
+  images: Featured["images"];
+  alt: string;
+}) {
+  const shots = images.slice(0, 4);
+  return (
+    <div className="project-phones" aria-hidden={false}>
+      {shots.map((img, i) => (
+        <div key={img.src} className={`phone phone-${i + 1}`}>
+          <img
+            src={img.src}
+            alt={i === 0 ? alt : ""}
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function ProjectCard({
   project,
   delay,
@@ -38,6 +62,7 @@ function ProjectCard({
   onOpen: () => void;
 }) {
   const cover = project.images[0];
+  const phonesLayout = project.cardLayout === "phones";
 
   return (
     <FadeIn delay={delay} className="project-card" as="article">
@@ -49,9 +74,25 @@ function ProjectCard({
       >
         <div className="project-card-visual">
           <div className={`project-visual-bg ${project.bgClass}`} aria-hidden />
-          <ProjectMockup kind={project.bgClass} />
-          {cover && (
-            <ShotImage src={cover.src} alt={`${project.cardTitle} 대표 화면`} />
+          {phonesLayout ? (
+            project.images.length > 0 ? (
+              <PhoneStack
+                images={project.images}
+                alt={`${project.cardTitle} 대표 화면`}
+              />
+            ) : (
+              <ProjectMockup kind={project.bgClass} />
+            )
+          ) : (
+            <>
+              <ProjectMockup kind={project.bgClass} />
+              {cover && (
+                <ShotImage
+                  src={cover.src}
+                  alt={`${project.cardTitle} 대표 화면`}
+                />
+              )}
+            </>
           )}
           <div className="project-card-badge">
             <span className="dot" aria-hidden />
@@ -97,6 +138,7 @@ function ProjectModal({
   const [activeIdx, setActiveIdx] = useState(0);
   const total = project.images.length;
   const active = total > 0 ? project.images[activeIdx] : null;
+  const phonesLayout = project.cardLayout === "phones";
   const counter =
     active &&
     `${String(activeIdx + 1).padStart(2, "0")} / ${String(total).padStart(2, "0")}`;
@@ -121,20 +163,30 @@ function ProjectModal({
           ×
         </button>
 
-        <div className="modal-shots">
+        <div className={`modal-shots ${phonesLayout ? "phones" : ""}`}>
           <div className="modal-shot-main">
             <div
               className={`project-visual-bg ${project.bgClass}`}
               aria-hidden
             />
-            <ProjectMockup kind={project.bgClass} />
-            {active && (
+            {!phonesLayout && <ProjectMockup kind={project.bgClass} />}
+            {active && phonesLayout ? (
+              <div className="modal-phone-frame">
+                <img
+                  key={active.src}
+                  src={active.src}
+                  alt={active.caption}
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            ) : active ? (
               <ShotImage
                 key={active.src}
                 src={active.src}
                 alt={active.caption}
               />
-            )}
+            ) : null}
             {active && (
               <div className="modal-shot-meta">
                 <div className="modal-shot-counter">SCREEN {counter}</div>

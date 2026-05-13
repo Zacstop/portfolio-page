@@ -1,6 +1,7 @@
 export const profile = {
   name: "Kang Joon Hyung",
   initials: "JH",
+  avatar: "/avatar.jpg",
   role: "Frontend · Fullstack Developer",
   location: "Seoul, KR",
   email: "zaca3392@gmail.com",

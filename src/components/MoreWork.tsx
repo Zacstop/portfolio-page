@@ -2,6 +2,7 @@ import { more } from "@/data/projects";
 import FadeIn from "./FadeIn";
 
 export default function MoreWork() {
+  if (more.length === 0) return null;
   return (
     <section className="more" id="more">
       <div className="more-inner">
